@@ -151,8 +151,7 @@ GameObject:
   - component: {fileID: 8324632635394869122}
   - component: {fileID: 6387553015615908979}
   - component: {fileID: 5901256292464088410}
-  - component: {fileID: 7832485870643850382}
-  - component: {fileID: 6648727479783857646}
+  - component: {fileID: 285232936176334216}
   m_Layer: 0
   m_Name: Golem
   m_TagString: Untagged
@@ -253,9 +252,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   enemyData: {fileID: 11400000, guid: f6167358a049017499abb313ebc76edc, type: 2}
   navMeshAgent: {fileID: 5901256292464088410}
-  blackboard: {fileID: 7832485870643850382}
-  normalSpeed: 1
-  seekAndAttackSpeed: 2
 --- !u!195 &5901256292464088410
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -278,7 +274,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &7832485870643850382
+--- !u!114 &285232936176334216
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -287,35 +283,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7145702272611391355}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1567eacf72f2eaa4aa090dd5597b0338, type: 3}
+  m_Script: {fileID: 11500000, guid: 4fbf6bb1f2dc5ba47be29ef65772618a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CMGTSA.FSM.Blackboard
-  startPosition: {x: 0, y: 0, z: 0}
-  targetPosition: {x: 0, y: 0, z: 0}
-  moveSpeed: 1
-  rotateSpeed: 180
-  stateOwnerTransform: {fileID: 5240255769697932230}
-  attackInterval: 0.5
-  distanceThreshold: 0.2
-  isRegularEnemy: 1
-  target: {fileID: 0}
-  patrolWaitTime: 2
-  waitingTime: 2
-  attackRange: 1
-  chaseRange: 4
-  normalModeSpeed: 1
-  alertModeSpeed: 2
-  alertModeWaitingTime: 1
---- !u!114 &6648727479783857646
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7145702272611391355}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7a42caeb6352b94d97c39d49a8ec031, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyModeController
-  alertDuration: 10
+  m_EditorClassIdentifier: CMGTSA.Runtime::CMGTSA.Enemies.AlertManager
+  alertDuration: 5
