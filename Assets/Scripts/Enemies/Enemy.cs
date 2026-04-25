@@ -21,16 +21,16 @@ namespace CMGTSA.Enemies
         public Vector3 startPosition;
         public float RotateSpeed => rotateSpeed;
         private float rotateSpeed;
-        public Transform StateOwnerTransform => stateOwnerTransform;
-        private Transform stateOwnerTransform;
+
+        public Transform stateOwnerTransform;
         public float AttackInterval => attackInterval;
         private float attackInterval;
         public float DistanceThreshold => distanceThreshold;
         private float distanceThreshold;
         public bool IsRegularEnemy => isRegularEnemy;
         private bool isRegularEnemy;
-        public Transform Target => target;
-        private Transform target;
+
+        public Transform target;
 
         public float waitingTime;
         public float AttackRange => attackRange;
@@ -54,8 +54,7 @@ namespace CMGTSA.Enemies
         public AlertLevel alertLevel = AlertLevel.NORMAL;
 
         public Enemy(int pMaxHP, int pMoney, int pXP, Vector3 pTargetPosition, float pRotateSpeed,
-            Transform pStateOwnerTransform, float pAttackInterval, float pDistanceThreshold,
-            Transform pTarget, float pAttackRange, float pChaseRange, float pNormalModeSpeed,
+            float pAttackInterval, float pDistanceThreshold, float pAttackRange, float pChaseRange, float pNormalModeSpeed,
             float pAlertModeSpeed, float pNormalModeWaitingTime, float pAlertModeWaitingTime,
             bool pIsRegularEnemy)
         {
@@ -65,10 +64,8 @@ namespace CMGTSA.Enemies
             xp = pXP;
             TargetPosition = pTargetPosition;
             rotateSpeed = pRotateSpeed;
-            stateOwnerTransform = pStateOwnerTransform;
             attackInterval = pAttackInterval;
             distanceThreshold = pDistanceThreshold;
-            target = pTarget;
             attackRange = pAttackRange;
             chaseRange = pChaseRange;
             normalModeSpeed = pNormalModeSpeed;

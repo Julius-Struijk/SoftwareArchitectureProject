@@ -14,14 +14,12 @@ namespace CMGTSA.Enemies
         public int xp;
         public Vector3 targetPosition;
         public float rotateSpeed = 180f;
-        public Transform stateOwnerTransform;
         public float attackInterval = 0.5f;
         public float distanceThreshold = 0.2f;
 
         [SerializeField]
         private bool isRegularEnemy = true;
 
-        public Transform target;
         public float waitingTime = 2f;
         public float attackRange = 1f;
         public float chaseRange = 2.5f;
@@ -32,8 +30,8 @@ namespace CMGTSA.Enemies
 
         public Enemy CreateEnemy()
         {
-            return new Enemy(maxHP, money, xp, targetPosition, rotateSpeed, stateOwnerTransform,
-                attackInterval, distanceThreshold, target, attackRange, chaseRange,
+            return new Enemy(maxHP, money, xp, targetPosition, rotateSpeed,
+                attackInterval, distanceThreshold, attackRange, chaseRange,
                 normalModeSpeed, alertModeSpeed, normalModeWaitingTime, alertModeWaitingTime,
                 isRegularEnemy);
         }

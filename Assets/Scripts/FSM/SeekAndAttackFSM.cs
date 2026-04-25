@@ -24,8 +24,8 @@ namespace CMGTSA.FSM
 
         public SeekAndAttackFSM(NavMeshAgent navMeshAgent, Enemy pEnemy)
         {
-            transform = pEnemy.StateOwnerTransform;
-            target = pEnemy.Target;
+            transform = pEnemy.stateOwnerTransform;
+            target = pEnemy.target;
             enemy = pEnemy;
 
             chaseState = new MoveToState(navMeshAgent, enemy, true);

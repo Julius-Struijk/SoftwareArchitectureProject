@@ -42,7 +42,7 @@ namespace CMGTSA.FSM
             }
             else
             {
-                navMeshAgent.SetDestination(enemy.Target.position);
+                navMeshAgent.SetDestination(enemy.target.position);
             }
             base.Step();
         }
@@ -53,7 +53,7 @@ namespace CMGTSA.FSM
             {
                 return Vector3.Distance(navMeshAgent.transform.position, enemy.TargetPosition) < enemy.DistanceThreshold;
             }
-            return Vector3.Distance(navMeshAgent.transform.position, enemy.Target.position) < enemy.DistanceThreshold;
+            return Vector3.Distance(navMeshAgent.transform.position, enemy.target.position) < enemy.DistanceThreshold;
         }
     }
 }
