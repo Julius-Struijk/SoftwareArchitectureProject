@@ -1,10 +1,11 @@
-using UnityEngine;
 using System;
+using UnityEngine;
+using CMGTSA.Enemies;
 
 namespace CMGTSA.FSM
 {
     /// <summary>
-    /// A state that does the attack logic.
+    /// Plays the attack tick once and reports completion after <see cref="Enemy.AttackInterval"/>.
     /// </summary>
     public class AttackState : State
     {
@@ -17,7 +18,6 @@ namespace CMGTSA.FSM
         {
             transform = pTransform;
             target = pTarget;
-            //blackboard = pBlackboard;
             enemy = pEnemy;
         }
 
@@ -32,7 +32,7 @@ namespace CMGTSA.FSM
 
         public bool FinishedAttacking()
         {
-            return Time.time > attackStartTime + blackboard.attackInterval;
+            return Time.time > attackStartTime + enemy.AttackInterval;
         }
     }
 }

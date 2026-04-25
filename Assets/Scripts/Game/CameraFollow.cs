@@ -1,23 +1,22 @@
 using UnityEngine;
 
-public class CameraFollow : MonoBehaviour
+namespace CMGTSA.Game
 {
-    [SerializeField] Transform target;
-
-    Vector3 offset;
-
-
-    // Start is called before the first frame update
-    void Start()
+    public class CameraFollow : MonoBehaviour
     {
-        offset = transform.position - target.position;
-    }
+        [SerializeField] Transform target;
 
-    // Update is called once per frame
-    void LateUpdate()
-    {
-        transform.position = target.position;
-        transform.position = new Vector3(transform.position.x, transform.position.y, offset.z);
-    }
+        Vector3 offset;
 
+        void Start()
+        {
+            offset = transform.position - target.position;
+        }
+
+        void LateUpdate()
+        {
+            transform.position = target.position;
+            transform.position = new Vector3(transform.position.x, transform.position.y, offset.z);
+        }
+    }
 }

@@ -1,9 +1,10 @@
 using UnityEngine;
+using CMGTSA.Enemies;
 
 namespace CMGTSA.FSM
 {
     /// <summary>
-    /// A state that idles for a certain period of time.
+    /// Idle for <see cref="Enemy.waitingTime"/> seconds, then a transition can fire.
     /// </summary>
     public class IdleState : State
     {
@@ -11,7 +12,6 @@ namespace CMGTSA.FSM
 
         public IdleState(Enemy pEnemy)
         {
-            //blackboard = pBlackboard;
             enemy = pEnemy;
         }
 
@@ -24,7 +24,7 @@ namespace CMGTSA.FSM
 
         public bool IdleTimeReached()
         {
-            return Time.time > startTime + blackboard.waitingTime;
+            return Time.time > startTime + enemy.waitingTime;
         }
     }
 }
