@@ -7,6 +7,7 @@ namespace CMGTSA.Enemies
     /// Per-enemy world-space HP bar. Subscribes to its parent <see cref="EnemyController"/>'s
     /// <c>onHPChanged</c> C# event. Observer pattern, intra-system: bus would force every bar
     /// to filter by transform, which is wrong shape for this signal.
+    /// Drives the fill by scaling the fill Image's RectTransform via anchorMax.x.
     /// </summary>
     public class EnemyHealthBar : MonoBehaviour
     {
@@ -19,7 +20,10 @@ namespace CMGTSA.Enemies
             {
                 foreach (var img in GetComponentsInChildren<Image>())
                 {
-                    if (img.type == Image.Type.Filled) { fillImage = img; break; }
+                    if (img.type == Image.Type.Filled || img.name.ToLower().Contains("fill"))
+                    {
+                        fillImage = img; break;
+                    }
                 }
             }
         }
@@ -46,7 +50,9 @@ namespace CMGTSA.Enemies
         private void OnHPChanged(int current, int max)
         {
             if (fillImage == null) return;
-            fillImage.fillAmount = max > 0 ? Mathf.Clamp01(current / (float)max) : 0f;
+            float fill = max > 0 ? Mathf.Clamp01(current / (float)max) : 0f;
+            RectTransform rt = fillImage.rectTransform;
+            rt.anchorMax = new Vector2(fill, rt.anchorMax.y);
         }
     }
 }

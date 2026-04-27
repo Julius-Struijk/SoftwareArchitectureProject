@@ -84,15 +84,18 @@ namespace CMGTSA.Tests
             var dummyPlayer = new GameObject("PlayerDummy") { tag = "Player" };
             dummyPlayer.transform.position = new Vector3(0, 0, 0);
 
+            // Deactivate before AddComponent so Awake is deferred until enemyData is set.
             var enemyGO = new GameObject("Enemy");
+            enemyGO.SetActive(false);
             enemyGO.layer = EnemyLayer;
             enemyGO.transform.position = new Vector3(2, 0, 0);
             enemyGO.AddComponent<CircleCollider2D>().radius = 0.5f;
             var enemyCtrl = enemyGO.AddComponent<EnemyController>();
             SetPrivateField(enemyCtrl, "enemyData", enemyData);
+            enemyGO.SetActive(true);       // Awake fires here with enemyData set
 
-            yield return null;             // Awake runs
             yield return null;             // Start runs
+            yield return null;             // physics settled
 
             int xpGained = 0;
             EventBus<EnemyDiedEvent>.Subscribe(e => xpGained += e.XP);

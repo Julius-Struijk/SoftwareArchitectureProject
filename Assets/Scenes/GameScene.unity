@@ -29650,17 +29650,41 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 3867021328204160685, guid: 532c90221b5b55f4b8de7934c04a5dbd, type: 3}
+      propertyPath: m_isOrthographic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867021328204160685, guid: 532c90221b5b55f4b8de7934c04a5dbd, type: 3}
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 3867021328204160685, guid: 532c90221b5b55f4b8de7934c04a5dbd, type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867021328204160685, guid: 532c90221b5b55f4b8de7934c04a5dbd, type: 3}
+      propertyPath: m_ActiveFontFeatures.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6483752649000743451, guid: 532c90221b5b55f4b8de7934c04a5dbd, type: 3}
       propertyPath: m_fontAsset
       value: 
       objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     - target: {fileID: 6483752649000743451, guid: 532c90221b5b55f4b8de7934c04a5dbd, type: 3}
+      propertyPath: m_isOrthographic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6483752649000743451, guid: 532c90221b5b55f4b8de7934c04a5dbd, type: 3}
       propertyPath: m_sharedMaterial
       value: 
       objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 6483752649000743451, guid: 532c90221b5b55f4b8de7934c04a5dbd, type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 6483752649000743451, guid: 532c90221b5b55f4b8de7934c04a5dbd, type: 3}
+      propertyPath: m_ActiveFontFeatures.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6877405778172396901, guid: 532c90221b5b55f4b8de7934c04a5dbd, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

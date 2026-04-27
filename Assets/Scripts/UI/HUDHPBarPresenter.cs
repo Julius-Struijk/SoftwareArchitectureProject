@@ -6,9 +6,10 @@ using CMGTSA.Player;
 namespace CMGTSA.UI
 {
     /// <summary>
-    /// MVP presenter: subscribes to <see cref="PlayerHPChangedEvent"/> and updates
-    /// <see cref="fillImage"/>'s <c>fillAmount</c>. The Image's Image Type must be
-    /// <c>Filled</c> with Horizontal fill method in the Inspector.
+    /// MVP presenter: subscribes to <see cref="PlayerHPChangedEvent"/> and drives the fill
+    /// bar by scaling <see cref="fillImage"/>'s RectTransform via <c>anchorMax.x</c>.
+    /// The fill Image must be anchored left-stretch inside the background rect (anchorMin.x=0,
+    /// anchorMax.x=1 at full HP) so shrinking anchorMax.x clips from the right.
     /// </summary>
     public class HUDHPBarPresenter : MonoBehaviour
     {
@@ -32,9 +33,9 @@ namespace CMGTSA.UI
         private void OnHPChanged(PlayerHPChangedEvent evt)
         {
             if (fillImage == null) return;
-            fillImage.fillAmount = evt.MaxHP > 0
-                ? Mathf.Clamp01(evt.CurrentHP / (float)evt.MaxHP)
-                : 0f;
+            float fill = evt.MaxHP > 0 ? Mathf.Clamp01(evt.CurrentHP / (float)evt.MaxHP) : 0f;
+            RectTransform rt = fillImage.rectTransform;
+            rt.anchorMax = new Vector2(fill, rt.anchorMax.y);
         }
     }
 }
