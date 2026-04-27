@@ -8,6 +8,7 @@ namespace CMGTSA.FSM
     /// </summary>
     public class IdleState : State
     {
+        private readonly Enemy enemy;
         private float startTime;
 
         public IdleState(Enemy pEnemy)

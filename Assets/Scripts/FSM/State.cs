@@ -1,13 +1,12 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using CMGTSA.Enemies;
 
 namespace CMGTSA.FSM
 {
     /// <summary>
-    /// Base class for every FSM state. Concrete states override Enter / Step / Exit
-    /// and add public methods to be used as transition predicates.
+    /// Base class for every FSM state. Concrete states own their own actor reference
+    /// (e.g. an enemy or a player controller) — the framework stays domain-free.
     /// </summary>
     public abstract class State
     {
@@ -16,8 +15,6 @@ namespace CMGTSA.FSM
 
         [SerializeReference]
         public List<Transition> transitions = new List<Transition>();
-
-        protected Enemy enemy;
 
         public virtual void Enter()
         {

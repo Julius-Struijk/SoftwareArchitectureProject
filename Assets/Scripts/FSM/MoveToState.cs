@@ -6,10 +6,11 @@ namespace CMGTSA.FSM
 {
     /// <summary>
     /// Walks the NavMeshAgent toward either a static <see cref="Enemy.TargetPosition"/>
-    /// or, when <c>followMovingTarget</c> is true, the live <see cref="Enemy.Target"/> transform.
+    /// or, when <c>followMovingTarget</c> is true, the live <see cref="Enemy.target"/> transform.
     /// </summary>
     public class MoveToState : State
     {
+        protected readonly Enemy enemy;
         protected NavMeshAgent navMeshAgent;
         private bool followMovingTarget;
 

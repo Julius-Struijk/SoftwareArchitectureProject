@@ -10,6 +10,7 @@ namespace CMGTSA.FSM
     /// </summary>
     public class SeekAndAttackFSM : FSM
     {
+        private readonly Enemy enemy;
         private MoveToState chaseState;
         private AttackState attackState;
         private MoveToState seekState;
@@ -47,6 +48,7 @@ namespace CMGTSA.FSM
             seekState.onEnter += SetNextSeekPosition;
             seekState.onEnter += () => onStartMoving?.Invoke();
             chaseState.onEnter += () => onStartMoving?.Invoke();
+            attackState.onEnter += () => onStartAttacking?.Invoke();
             seekIdleState.onEnter += () => onStartIdling?.Invoke();
         }
 

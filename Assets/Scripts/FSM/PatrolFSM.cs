@@ -10,6 +10,7 @@ namespace CMGTSA.FSM
     /// </summary>
     public class PatrolFSM : FSM
     {
+        private readonly Enemy enemy;
         private MoveToState moveToState;
         private IdleState idleState;
 

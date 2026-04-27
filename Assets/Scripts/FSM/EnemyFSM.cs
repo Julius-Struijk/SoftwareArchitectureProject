@@ -9,6 +9,7 @@ namespace CMGTSA.FSM
     /// </summary>
     public class EnemyFSM : FSM
     {
+        private readonly Enemy enemy;
         public PatrolFSM patrolFSM;
         public SeekAndAttackFSM seekAndAttackFSM;
 
