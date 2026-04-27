@@ -66,6 +66,7 @@ namespace CMGTSA.Player
 
             while (XP >= XPForNextLevel())
             {
+                XP -= XPForNextLevel();
                 Level++;
                 EventBus<PlayerLeveledUpEvent>.Publish(new PlayerLeveledUpEvent(Level));
             }
