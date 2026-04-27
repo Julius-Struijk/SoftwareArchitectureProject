@@ -1,31 +1,43 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System;
 
 namespace CMGTSA.Player
 {
-    [RequireComponent(typeof(Rigidbody2D))]
+    /// <summary>
+    /// Pure input adapter. Stores the latest <see cref="MoveInput"/> vector and a
+    /// one-shot attack flag readable via <see cref="ConsumeAttackQueued"/>. The FSM in
+    /// <see cref="PlayerController"/> reads these and applies physics in MoveState.
+    /// </summary>
     public class PlayerControl : MonoBehaviour
     {
         public static Action onInteract;
 
-        private Rigidbody2D rigidBody2D;
-        [SerializeField] int speedMultiplier = 2;
+        public Vector2 MoveInput { get; private set; }
 
-        void Start()
+        private bool attackQueued;
+
+        public bool ConsumeAttackQueued()
         {
-            rigidBody2D = GetComponent<Rigidbody2D>();
+            if (!attackQueued) return false;
+            attackQueued = false;
+            return true;
         }
 
         public void Move(InputAction.CallbackContext context)
         {
-            Vector2 moveVector = context.ReadValue<Vector2>();
-            rigidBody2D.linearVelocity = moveVector * speedMultiplier;
+            MoveInput = context.ReadValue<Vector2>();
+        }
+
+        public void Attack(InputAction.CallbackContext context)
+        {
+            // Latch on Performed; cleared by ConsumeAttackQueued in the FSM transition predicate.
+            if (context.performed) attackQueued = true;
         }
 
         public void Interact(InputAction.CallbackContext context)
         {
-            onInteract?.Invoke();
+            if (context.performed) onInteract?.Invoke();
         }
     }
 }
