@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8595452850999605449}
   - component: {fileID: 9019870616198455232}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: PlayerAnimation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,8 @@ GameObject:
   - component: {fileID: 629298319840254150}
   - component: {fileID: 6056752229796123010}
   - component: {fileID: 5213133278557628157}
-  m_Layer: 0
+  - component: {fileID: 184228778763789230}
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -211,4 +212,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab3eeb4649215554b8df487c00dfcf45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerControl
-  speedMultiplier: 3
+--- !u!114 &184228778763789230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7856926540702542527}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76e1be52fad70d349835355101577379, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CMGTSA.Runtime::CMGTSA.Player.PlayerController
+  maxHP: 10
+  startingMoney: 0
+  moveSpeed: 3
+  attackDamage:
+    damage: 2
+    slowDown: 0
+    slowDownTime: 0
+    damageType: {fileID: 11400000, guid: c6e5a2ba2ce0e364e809806063226e52, type: 2}
+  attackRange: 1.5
+  attackInterval: 0.4
+  hurtDuration: 0.3
