@@ -14,6 +14,11 @@ namespace CMGTSA.UI
     {
         [SerializeField] private Image fillImage;
 
+        private void Awake()
+        {
+            if (fillImage == null) fillImage = GetComponent<Image>();
+        }
+
         private void OnEnable()
         {
             EventBus<PlayerHPChangedEvent>.Subscribe(OnHPChanged);

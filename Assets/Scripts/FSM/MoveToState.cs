@@ -25,6 +25,7 @@ namespace CMGTSA.FSM
         {
             base.Enter();
             Debug.Log("Entered MoveTo state.");
+            if (navMeshAgent == null) return;
             navMeshAgent.enabled = true;
             navMeshAgent.speed = enemy.moveSpeed;
         }
@@ -32,11 +33,13 @@ namespace CMGTSA.FSM
         public override void Exit()
         {
             base.Exit();
+            if (navMeshAgent == null) return;
             navMeshAgent.enabled = false;
         }
 
         public override void Step()
         {
+            if (navMeshAgent == null) { base.Step(); return; }
             if (!followMovingTarget)
             {
                 navMeshAgent.SetDestination(enemy.TargetPosition);
@@ -50,6 +53,7 @@ namespace CMGTSA.FSM
 
         public bool TargetReached()
         {
+            if (navMeshAgent == null) return false;
             if (!followMovingTarget)
             {
                 return Vector3.Distance(navMeshAgent.transform.position, enemy.TargetPosition) < enemy.DistanceThreshold;

@@ -88,12 +88,8 @@ namespace CMGTSA.Tests
             enemyGO.layer = EnemyLayer;
             enemyGO.transform.position = new Vector3(2, 0, 0);
             enemyGO.AddComponent<CircleCollider2D>().radius = 0.5f;
-            // NavMeshAgent is required by EnemyController; add but disable navmesh.
-            var nav = enemyGO.AddComponent<UnityEngine.AI.NavMeshAgent>();
-            nav.enabled = false;
             var enemyCtrl = enemyGO.AddComponent<EnemyController>();
             SetPrivateField(enemyCtrl, "enemyData", enemyData);
-            SetPrivateField(enemyCtrl, "navMeshAgent", nav);
 
             yield return null;             // Awake runs
             yield return null;             // Start runs

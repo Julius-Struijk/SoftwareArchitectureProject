@@ -6,19 +6,20 @@ using CMGTSA.Game;
 namespace CMGTSA.UI
 {
     /// <summary>
-    /// Game-over overlay panel. Hidden by default. Activates on <see cref="GameOverEvent"/>.
-    /// While visible, polls Keyboard.R and tells <see cref="GameManager"/> to reload the scene.
+    /// Game-over overlay panel. Uses a CanvasGroup for visibility so this MonoBehaviour
+    /// stays active (and subscribed to events) even when the panel is hidden. Activates
+    /// on <see cref="GameOverEvent"/>; R-key reloads the scene via <see cref="GameManager"/>.
     /// </summary>
     public class GameOverUI : MonoBehaviour
     {
-        [SerializeField] private GameObject panelRoot;
+        [SerializeField] private CanvasGroup panelGroup;
         [SerializeField] private GameManager gameManager;
 
         private bool visible;
 
         private void Awake()
         {
-            if (panelRoot != null) panelRoot.SetActive(false);
+            SetPanelVisible(false);
         }
 
         private void OnEnable()
@@ -40,10 +41,15 @@ namespace CMGTSA.UI
             }
         }
 
-        private void OnGameOver(GameOverEvent _)
+        private void OnGameOver(GameOverEvent _) => SetPanelVisible(true);
+
+        private void SetPanelVisible(bool show)
         {
-            visible = true;
-            if (panelRoot != null) panelRoot.SetActive(true);
+            visible = show;
+            if (panelGroup == null) return;
+            panelGroup.alpha = show ? 1f : 0f;
+            panelGroup.interactable = show;
+            panelGroup.blocksRaycasts = show;
         }
     }
 }

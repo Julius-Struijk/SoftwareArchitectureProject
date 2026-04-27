@@ -37,8 +37,11 @@ namespace CMGTSA.Enemies
             {
                 navMeshAgent = GetComponent<NavMeshAgent>();
             }
-            navMeshAgent.updateRotation = false;
-            navMeshAgent.updateUpAxis = false;
+            if (navMeshAgent != null && navMeshAgent.enabled)
+            {
+                navMeshAgent.updateRotation = false;
+                navMeshAgent.updateUpAxis = false;
+            }
 
             enemy = enemyData.CreateEnemy();
             enemy.startPosition = transform.position;

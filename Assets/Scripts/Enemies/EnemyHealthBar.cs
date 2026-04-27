@@ -13,6 +13,17 @@ namespace CMGTSA.Enemies
         [SerializeField] private EnemyController controller;
         [SerializeField] private Image fillImage;
 
+        private void Awake()
+        {
+            if (fillImage == null)
+            {
+                foreach (var img in GetComponentsInChildren<Image>())
+                {
+                    if (img.type == Image.Type.Filled) { fillImage = img; break; }
+                }
+            }
+        }
+
         private void Reset()
         {
             controller = GetComponentInParent<EnemyController>();

@@ -50,6 +50,7 @@ namespace CMGTSA.Player
             input = GetComponent<PlayerControl>();
             body = GetComponent<Rigidbody2D>();
             stats = new PlayerStatsModel(maxHP, startingMoney);
+            if (attackDamage == null) attackDamage = new DamageData { damage = 2 };
             fsm = new PlayerFSM(this);
         }
 
