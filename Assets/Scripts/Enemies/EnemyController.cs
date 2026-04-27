@@ -8,11 +8,13 @@ using CMGTSA.FSM;
 namespace CMGTSA.Enemies
 {
     /// <summary>
-    /// MonoBehaviour wrapper for an Enemy + EnemyFSM. Constructs both in Awake (avoids the
-    /// previous OnEnable/Start NRE), subscribes to AlertLevelChangedEvent in OnEnable so the
-    /// FSM transitions react to the bus, and ticks the FSM in Update.
+    /// MonoBehaviour wrapper for an Enemy + EnemyFSM. Implements <see cref="IDamageable"/> so
+    /// <c>DamageResolver</c> can hit it. Publishes <see cref="EnemyAttackRequestedEvent"/>
+    /// when the FSM enters its AttackState, and <see cref="EnemyDiedEvent"/> when HP hits 0.
+    /// Exposes a per-instance <see cref="onHPChanged"/> C# event for the world-space HP bar
+    /// (Observer pattern, intra-system one-to-many — bus would need transform filtering).
     /// </summary>
-    public class EnemyController : MonoBehaviour
+    public class EnemyController : MonoBehaviour, IDamageable
     {
         [SerializeField]
         private EnemyData enemyData;
@@ -24,7 +26,10 @@ namespace CMGTSA.Enemies
         private EnemyFSM enemyFSM;
 
         public event Action<Enemy> onEnemyCreated;
-        public event Action<Enemy, DamageData> onHit;
+        public event Action<int, int> onHPChanged;     // currentHP, maxHP
+
+        public Enemy Enemy => enemy;
+        public EnemyData Data => enemyData;
 
         private void Awake()
         {
@@ -40,6 +45,8 @@ namespace CMGTSA.Enemies
             enemy.target = GameObject.FindGameObjectWithTag("Player").transform;
             enemy.stateOwnerTransform = transform;
             enemyFSM = new EnemyFSM(navMeshAgent, enemy);
+
+            enemyFSM.seekAndAttackFSM.onStartAttacking += PublishAttackRequest;
         }
 
         private void OnEnable()
@@ -58,6 +65,7 @@ namespace CMGTSA.Enemies
             // Raised here (not Awake) so subscribers that subscribe in their own OnEnable
             // are guaranteed to be registered before this fires.
             onEnemyCreated?.Invoke(enemy);
+            onHPChanged?.Invoke(enemy.currentHP, enemy.MaxHP);
         }
 
         private void Update()
@@ -83,11 +91,30 @@ namespace CMGTSA.Enemies
             }
         }
 
-        public void GetHit(DamageData damageData)
+        public bool TakeDamage(int amount)
         {
-            enemy.currentHP -= damageData.damage;
-            if (enemy.currentHP < 0) enemy.currentHP = 0;
-            onHit?.Invoke(enemy, damageData);
+            if (amount <= 0 || enemy.currentHP <= 0) return false;
+
+            enemy.currentHP = Mathf.Max(0, enemy.currentHP - amount);
+            onHPChanged?.Invoke(enemy.currentHP, enemy.MaxHP);
+
+            if (enemy.currentHP == 0)
+            {
+                EventBus<EnemyDiedEvent>.Publish(new EnemyDiedEvent(
+                    enemy.XP, enemy.Money, transform.position, enemyData));
+                Destroy(gameObject);
+                return true;
+            }
+            return false;
+        }
+
+        private void PublishAttackRequest()
+        {
+            EventBus<EnemyAttackRequestedEvent>.Publish(new EnemyAttackRequestedEvent(
+                transform.position,
+                enemy.AttackRange,
+                enemyData.attackDamage,
+                transform));
         }
     }
 }

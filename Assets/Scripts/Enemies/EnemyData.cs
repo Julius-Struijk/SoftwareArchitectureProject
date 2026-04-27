@@ -1,10 +1,12 @@
 using UnityEngine;
+using CMGTSA.Battle;
 
 namespace CMGTSA.Enemies
 {
     /// <summary>
     /// ScriptableObject Factory: produces a fresh <see cref="Enemy"/> instance per spawn
-    /// from designer-tuned defaults.
+    /// from designer-tuned defaults. Holds the outgoing <see cref="attackDamage"/> the enemy
+    /// publishes via <c>EnemyAttackRequestedEvent</c>.
     /// </summary>
     [CreateAssetMenu(fileName = "EnemyData", menuName = "Scriptable Objects/EnemyData")]
     public class EnemyData : ScriptableObject
@@ -27,6 +29,9 @@ namespace CMGTSA.Enemies
         public float alertModeSpeed = 2f;
         public float normalModeWaitingTime = 2f;
         public float alertModeWaitingTime = 1f;
+
+        [Tooltip("Outgoing damage when this enemy attacks. Inspector-assigned.")]
+        public DamageData attackDamage;
 
         public Enemy CreateEnemy()
         {
