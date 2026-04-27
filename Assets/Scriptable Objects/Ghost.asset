@@ -13,6 +13,22 @@ MonoBehaviour:
   m_Name: Ghost
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   maxHP: 5
-  speed: 3
   money: 10
   xp: 4
+  targetPosition: {x: 0, y: 0, z: 0}
+  rotateSpeed: 180
+  attackInterval: 0.5
+  distanceThreshold: 0.2
+  isRegularEnemy: 1
+  waitingTime: 2
+  attackRange: 1
+  chaseRange: 2.5
+  normalModeSpeed: 1
+  alertModeSpeed: 2
+  normalModeWaitingTime: 2
+  alertModeWaitingTime: 1
+  attackDamage:
+    damage: 1
+    slowDown: 0
+    slowDownTime: 0
+    damageType: {fileID: 11400000, guid: 655c12c228a28004381d2f930a155be2, type: 2}
