@@ -1,4 +1,5 @@
 using CMGTSA.FSM;
+using FsmBase = CMGTSA.FSM.FSM;
 
 namespace CMGTSA.Player
 {
@@ -12,7 +13,7 @@ namespace CMGTSA.Player
     /// 5. Hurt → Idle when stun ends
     /// 6. Attack → Idle when interval ends
     /// </summary>
-    public class PlayerFSM : FSM
+    public class PlayerFSM : FsmBase
     {
         public PlayerIdleState idle;
         public PlayerMoveState move;
