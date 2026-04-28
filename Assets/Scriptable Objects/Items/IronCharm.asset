@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IronCharm
   m_EditorClassIdentifier: CMGTSA.Runtime::CMGTSA.Inventory.ItemData
   displayName: Iron Charm
-  icon: {fileID: 0}
+  icon: {fileID: 398172114, guid: ff8c38fc992f4d5488eeec2f6f220f57, type: 3}
   category: {fileID: 11400000, guid: 73d8a63279c10a343ad1834a61d1159c, type: 2}
   isStackable: 0
   attackBonus: 2

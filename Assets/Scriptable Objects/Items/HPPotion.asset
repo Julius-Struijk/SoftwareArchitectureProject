@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HPPotion
   m_EditorClassIdentifier: CMGTSA.Runtime::CMGTSA.Inventory.ItemData
   displayName: HP Potion
-  icon: {fileID: 0}
+  icon: {fileID: -1132516100, guid: ff8c38fc992f4d5488eeec2f6f220f57, type: 3}
   category: {fileID: 11400000, guid: 2ed1395031d47ef44ba80cb7b07083e8, type: 2}
   isStackable: 1
   attackBonus: 0

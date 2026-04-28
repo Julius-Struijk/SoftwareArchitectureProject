@@ -95,7 +95,7 @@ namespace CMGTSA.UI
             }
         }
 
-        public void SetSortNameAscending()    => SetSort(new NameAscendingSort());
+        public void SetSortNameAscending() => SetSort(new NameAscendingSort());
         public void SetSortNameDescending()   => SetSort(new NameDescendingSort());
         public void SetSortAttackHighLow()    => SetSort(new AttackHighLowSort());
         public void SetSortObtainedOrder()    => SetSort(new ObtainedOrderSort());

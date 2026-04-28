@@ -29,7 +29,10 @@ namespace CMGTSA.UI
             if (button != null) button.onClick.RemoveListener(HandleClick);
         }
 
-        private void HandleClick() => onClick?.Invoke();
+        private void HandleClick()
+        {
+            onClick?.Invoke();
+        }
 
         public void Bind(InventorySlot slot, System.Action onClickCallback)
         {
