@@ -235,3 +235,6 @@ MonoBehaviour:
   attackRange: 1.5
   attackInterval: 0.4
   hurtDuration: 0.3
+  consumableCategory: {fileID: 11400000, guid: 2ed1395031d47ef44ba80cb7b07083e8, type: 2}
+  passiveCategory: {fileID: 11400000, guid: 73d8a63279c10a343ad1834a61d1159c, type: 2}
+  questCategory: {fileID: 11400000, guid: bfc4583cad4279c4cb365b986ae35859, type: 2}
