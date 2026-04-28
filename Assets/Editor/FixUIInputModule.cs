@@ -7,59 +7,59 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// Creates a minimal UI InputActionAsset (Point + Click + ScrollWheel + Navigate/Submit/Cancel)
-/// and assigns it to the scene's InputSystemUIInputModule so mouse clicks reach UI buttons.
+/// Points InputSystemUIInputModule at the project's existing InputSystem_Actions.inputactions
+/// (which already contains a "UI" map) using SerializedObject so the assignment persists in
+/// the scene file. Also wires individual action references so the module works in all IS versions.
 /// </summary>
 public static class FixUIInputModule
 {
-    private const string AssetPath = "Assets/UI_InputActions.inputactions";
+    private const string ActionsPath = "Assets/InputSystem_Actions.inputactions";
 
     public static void Execute()
     {
-        var es = Object.FindObjectOfType<EventSystem>();
+        var es = Object.FindObjectOfType<EventSystem>(true);
         if (es == null) { Debug.LogError("[FixUIInputModule] No EventSystem in scene."); return; }
 
         var module = es.GetComponent<InputSystemUIInputModule>();
         if (module == null) { Debug.LogError("[FixUIInputModule] No InputSystemUIInputModule found."); return; }
 
-        // Build the asset.
-        var asset = ScriptableObject.CreateInstance<InputActionAsset>();
-        asset.name = "UI_InputActions";
-        var map = asset.AddActionMap("UI");
+        var asset = AssetDatabase.LoadAssetAtPath<InputActionAsset>(ActionsPath);
+        if (asset == null) { Debug.LogError($"[FixUIInputModule] Cannot load {ActionsPath}"); return; }
 
-        map.AddAction("Point",       InputActionType.PassThrough).AddBinding("<Mouse>/position");
-        map.AddAction("Click",       InputActionType.PassThrough).AddBinding("<Mouse>/leftButton");
-        map.AddAction("MiddleClick", InputActionType.PassThrough).AddBinding("<Mouse>/middleButton");
-        map.AddAction("RightClick",  InputActionType.PassThrough).AddBinding("<Mouse>/rightButton");
-        map.AddAction("ScrollWheel", InputActionType.PassThrough).AddBinding("<Mouse>/scroll");
+        // Load all sub-assets (InputActionReference objects live here).
+        var allSubs = AssetDatabase.LoadAllAssetsAtPath(ActionsPath);
 
-        var nav = map.AddAction("Navigate");
-        nav.AddCompositeBinding("2DVector")
-            .With("Up",    "<Keyboard>/upArrow")
-            .With("Down",  "<Keyboard>/downArrow")
-            .With("Left",  "<Keyboard>/leftArrow")
-            .With("Right", "<Keyboard>/rightArrow");
+        var so = new SerializedObject(module);
+        so.Update();
 
-        map.AddAction("Submit").AddBinding("<Keyboard>/enter");
-        map.AddAction("Cancel").AddBinding("<Keyboard>/escape");
+        so.FindProperty("m_ActionsAsset").objectReferenceValue = asset;
+        SetRef(so, allSubs, "m_PointAction",       "UI/Point");
+        SetRef(so, allSubs, "m_LeftClickAction",   "UI/Click");
+        SetRef(so, allSubs, "m_RightClickAction",  "UI/RightClick");
+        SetRef(so, allSubs, "m_MiddleClickAction", "UI/MiddleClick");
+        SetRef(so, allSubs, "m_ScrollWheelAction", "UI/ScrollWheel");
+        SetRef(so, allSubs, "m_MoveAction",        "UI/Navigate");
+        SetRef(so, allSubs, "m_SubmitAction",      "UI/Submit");
+        SetRef(so, allSubs, "m_CancelAction",      "UI/Cancel");
 
-        // Overwrite any existing version.
-        var existing = AssetDatabase.LoadAssetAtPath<InputActionAsset>(AssetPath);
-        if (existing != null) AssetDatabase.DeleteAsset(AssetPath);
-
-        AssetDatabase.CreateAsset(asset, AssetPath);
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-
-        var saved = AssetDatabase.LoadAssetAtPath<InputActionAsset>(AssetPath);
-
-        // Assign — this triggers InputSystemUIInputModule.ApplyActionsAsset() internally.
-        module.actionsAsset = saved;
+        so.ApplyModifiedProperties();
         EditorUtility.SetDirty(module);
-
         EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         EditorSceneManager.SaveOpenScenes();
 
-        Debug.Log($"[FixUIInputModule] Assigned {AssetPath} to InputSystemUIInputModule. UI clicks should now work.");
+        Debug.Log($"[FixUIInputModule] Done. actionsAsset={module.actionsAsset}  point={module.point}");
+    }
+
+    private static void SetRef(SerializedObject so, Object[] subs, string propName, string actionPath)
+    {
+        foreach (var s in subs)
+        {
+            if (s is InputActionReference r && r != null && r.name == actionPath)
+            {
+                so.FindProperty(propName).objectReferenceValue = r;
+                return;
+            }
+        }
+        Debug.LogWarning($"[FixUIInputModule] Sub-asset not found for {propName} ({actionPath}) — skipping.");
     }
 }
