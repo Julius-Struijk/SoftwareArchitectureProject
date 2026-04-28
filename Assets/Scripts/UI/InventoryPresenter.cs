@@ -26,9 +26,26 @@ namespace CMGTSA.UI
         private InventoryModel model;
         private readonly List<InventorySlotView> pooledViews = new List<InventorySlotView>();
 
+        private bool started;
+
+        private void Start()
+        {
+            started = true;
+            if (model == null) // OnEnable ran before PlayerController.Awake — retry here
+            {
+                ResolveModel();
+                if (model != null)
+                {
+                    model.OnChanged += Refresh;
+                    Refresh();
+                }
+            }
+        }
+
         private void OnEnable()
         {
-            ResolveModel();
+            if (!started) return; // Start hasn't run yet — let Start handle initial subscribe
+            if (model == null) ResolveModel();
             if (model != null)
             {
                 model.OnChanged += Refresh;
