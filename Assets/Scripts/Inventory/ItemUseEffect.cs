@@ -11,6 +11,6 @@ namespace CMGTSA.Inventory
     {
         NoEffect = 0,
         Consumed = 1,
-        ToggledEquip = 2,
+        ToggledEquip = 2
     }
 }
