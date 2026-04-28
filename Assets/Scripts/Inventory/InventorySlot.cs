@@ -14,7 +14,7 @@ namespace CMGTSA.Inventory
 
         public InventorySlot(ItemData item, int count, int orderObtained)
         {
-            Item = item;
+            Item = item ?? throw new System.ArgumentNullException(nameof(item));
             Count = count;
             Equipped = false;
             OrderObtained = orderObtained;
@@ -22,7 +22,11 @@ namespace CMGTSA.Inventory
 
         // Mutators are internal-by-convention — only InventoryModel calls them.
         public void IncrementCount() { Count++; }
-        public void DecrementCount() { Count--; }
+        public void DecrementCount()
+        {
+            if (Count <= 0) throw new System.InvalidOperationException("Cannot decrement an empty slot.");
+            Count--;
+        }
         public void SetEquipped(bool value) { Equipped = value; }
     }
 }
