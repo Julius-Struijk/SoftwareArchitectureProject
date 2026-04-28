@@ -32,3 +32,8 @@ MonoBehaviour:
     slowDown: 0
     slowDownTime: 0
     damageType: {fileID: 11400000, guid: 655c12c228a28004381d2f930a155be2, type: 2}
+  lootTable:
+  - item: {fileID: 11400000, guid: aed6f4fa22e73314ba9f4b308935aab3, type: 2}
+    chance: 0.5
+  - item: {fileID: 11400000, guid: f2cad9c6d51f7ab439d75bdb1d1421ba, type: 2}
+    chance: 0.25

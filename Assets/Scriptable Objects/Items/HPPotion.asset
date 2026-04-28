@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26dab39baa5ce29439469eddd90ef807, type: 3}
+  m_Name: HPPotion
+  m_EditorClassIdentifier: CMGTSA.Runtime::CMGTSA.Inventory.ItemData
+  displayName: HP Potion
+  icon: {fileID: 0}
+  category: {fileID: 11400000, guid: 2ed1395031d47ef44ba80cb7b07083e8, type: 2}
+  isStackable: 1
+  attackBonus: 0
+  consumableHealAmount: 4
+  description: Restores 4 HP. Stacks.

@@ -2,6 +2,7 @@ using UnityEngine;
 using CMGTSA.Battle;
 using CMGTSA.Core;
 using CMGTSA.Enemies;
+using CMGTSA.Inventory;
 
 namespace CMGTSA.Player
 {
@@ -26,14 +27,25 @@ namespace CMGTSA.Player
         [Header("Hurt")]
         [SerializeField] private float hurtDuration = 0.3f;
 
+        [Header("Inventory (slice 3)")]
+        [Tooltip("ItemCategory SO for consumables (HP potions, food).")]
+        [SerializeField] private ItemCategory consumableCategory;
+        [Tooltip("ItemCategory SO for passive equipment (charms, rings).")]
+        [SerializeField] private ItemCategory passiveCategory;
+        [Tooltip("ItemCategory SO for quest items (keys, plot items).")]
+        [SerializeField] private ItemCategory questCategory;
+
         private PlayerControl input;
         private Rigidbody2D body;
         private PlayerStatsModel stats;
         private PlayerFSM fsm;
+        private InventoryModel inventory;
+        private PlayerInventoryContext inventoryContext;
 
         public PlayerControl Input => input;
         public Rigidbody2D Body => body;
         public PlayerStatsModel Stats => stats;
+        public InventoryModel Inventory => inventory;
         public Vector2 LastFacing { get; private set; } = Vector2.right;
 
         public DamageData AttackDamage => attackDamage;
@@ -52,17 +64,27 @@ namespace CMGTSA.Player
             stats = new PlayerStatsModel(maxHP, startingMoney);
             if (attackDamage == null) attackDamage = new DamageData { damage = 2 };
             fsm = new PlayerFSM(this);
+            inventoryContext = new PlayerInventoryContext(stats);
+            var registry = new ItemUseStrategyRegistry(new[]
+            {
+                (consumableCategory, (IItemUseStrategy)new ConsumableUseStrategy()),
+                (passiveCategory,    (IItemUseStrategy)new PassiveEquipStrategy()),
+                (questCategory,      (IItemUseStrategy)new QuestItemUseStrategy()),
+            });
+            inventory = new InventoryModel(inventoryContext, registry);
         }
 
         private void OnEnable()
         {
             EventBus<EnemyDiedEvent>.Subscribe(OnEnemyDied);
+            EventBus<ItemPickedUpEvent>.Subscribe(OnItemPickedUp);
             fsm.Enter();
         }
 
         private void OnDisable()
         {
             EventBus<EnemyDiedEvent>.Unsubscribe(OnEnemyDied);
+            EventBus<ItemPickedUpEvent>.Unsubscribe(OnItemPickedUp);
         }
 
         private void Start()
@@ -101,6 +123,11 @@ namespace CMGTSA.Player
         {
             stats.GainXP(evt.XP);
             stats.GainMoney(evt.Money);
+        }
+
+        private void OnItemPickedUp(ItemPickedUpEvent evt)
+        {
+            inventory.Add(evt.Item);
         }
     }
 }
