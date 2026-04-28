@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionAsset
   m_ActionMaps:
   - m_Name: UI
-    m_Id: 68f5bfb3-e15a-4002-865d-c201fcda0264
+    m_Id: eb6a14dd-9725-4686-aa72-675aa665aafe
     m_Asset: {fileID: 11400000}
     m_Actions:
     - m_Name: Point
       m_Type: 2
       m_ExpectedControlType: 
-      m_Id: 423574a4-a82a-45a5-b0cb-c3920f2999d0
+      m_Id: 276da70e-9520-4844-8334-3a250e866c6d
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -28,7 +28,7 @@ MonoBehaviour:
     - m_Name: Click
       m_Type: 2
       m_ExpectedControlType: 
-      m_Id: daaf49ed-696c-449e-ad0e-0c8c8a55adee
+      m_Id: e82d5058-b0a9-40fd-8ea3-258245b592e4
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -36,7 +36,7 @@ MonoBehaviour:
     - m_Name: MiddleClick
       m_Type: 2
       m_ExpectedControlType: 
-      m_Id: 37f216a7-bfb2-4ec5-a2e4-fbc9a5297d66
+      m_Id: 4e21efef-6a12-4fda-b0f5-38de899b75c5
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -44,7 +44,7 @@ MonoBehaviour:
     - m_Name: RightClick
       m_Type: 2
       m_ExpectedControlType: 
-      m_Id: bb382fa2-71df-4249-84bf-b1e2ff81879c
+      m_Id: 5c6b5225-7e18-4393-b73e-1225607b2ffc
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -52,7 +52,7 @@ MonoBehaviour:
     - m_Name: ScrollWheel
       m_Type: 2
       m_ExpectedControlType: 
-      m_Id: e50793b9-a8dd-4ce8-ada6-908867f1bc1c
+      m_Id: 4cd33ae7-0efc-4545-8779-506a79adb289
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -60,7 +60,7 @@ MonoBehaviour:
     - m_Name: Navigate
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: d21b1d3a-02cf-4afd-890d-a48d4dfadbff
+      m_Id: 8f2cdfbd-0a25-46dd-bf0c-99ee764b3ced
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -68,7 +68,7 @@ MonoBehaviour:
     - m_Name: Submit
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: 2e8fd1ae-d482-4263-9e65-c06543a335bd
+      m_Id: 7f7de758-2105-4f38-b595-94a9daef6bfe
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -76,14 +76,14 @@ MonoBehaviour:
     - m_Name: Cancel
       m_Type: 0
       m_ExpectedControlType: 
-      m_Id: 8c54ff9e-866f-4a3f-81fc-a11618c81c55
+      m_Id: 7d57ad49-4849-420e-9c4d-17d7ca177e30
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Bindings:
     - m_Name: 
-      m_Id: 93f8680a-1aac-4e81-8cdd-cc78736b226d
+      m_Id: fce1188e-66b5-49d7-b010-8680177f16ba
       m_Path: <Mouse>/position
       m_Interactions: 
       m_Processors: 
@@ -91,7 +91,7 @@ MonoBehaviour:
       m_Action: Point
       m_Flags: 0
     - m_Name: 
-      m_Id: 48a56f04-d5aa-412e-8067-e2618d7f4308
+      m_Id: 9aa5a9fd-3289-4210-bf52-0d61e1de8adc
       m_Path: <Mouse>/leftButton
       m_Interactions: 
       m_Processors: 
@@ -99,7 +99,7 @@ MonoBehaviour:
       m_Action: Click
       m_Flags: 0
     - m_Name: 
-      m_Id: 6396152a-0d5f-403c-a8f6-f66ee1aa6ac7
+      m_Id: 9061c28d-c15b-4e4f-bd19-724946364de3
       m_Path: <Mouse>/middleButton
       m_Interactions: 
       m_Processors: 
@@ -107,7 +107,7 @@ MonoBehaviour:
       m_Action: MiddleClick
       m_Flags: 0
     - m_Name: 
-      m_Id: 22924211-ac58-4d0d-ad0b-056ca8997c54
+      m_Id: 81ece345-6b33-41fc-b4ed-b635664883b4
       m_Path: <Mouse>/rightButton
       m_Interactions: 
       m_Processors: 
@@ -115,7 +115,7 @@ MonoBehaviour:
       m_Action: RightClick
       m_Flags: 0
     - m_Name: 
-      m_Id: 222b4e9c-318a-498e-ab58-bda87c0611eb
+      m_Id: dcbba501-ee54-4f8a-a154-e02fcaf82865
       m_Path: <Mouse>/scroll
       m_Interactions: 
       m_Processors: 
@@ -123,7 +123,7 @@ MonoBehaviour:
       m_Action: ScrollWheel
       m_Flags: 0
     - m_Name: 2DVector
-      m_Id: ce71b3f9-037a-4d86-9e78-e484e77ed253
+      m_Id: 9bb0f252-dd4a-47d2-8736-a141c65c61ce
       m_Path: 2DVector
       m_Interactions: 
       m_Processors: 
@@ -131,7 +131,7 @@ MonoBehaviour:
       m_Action: Navigate
       m_Flags: 4
     - m_Name: Up
-      m_Id: 5b4320ba-8967-4646-ae8b-78b0e3369b22
+      m_Id: 3515831c-f606-4cae-9bff-98433f8caafa
       m_Path: <Keyboard>/upArrow
       m_Interactions: 
       m_Processors: 
@@ -139,7 +139,7 @@ MonoBehaviour:
       m_Action: Navigate
       m_Flags: 8
     - m_Name: Down
-      m_Id: d425d40b-0b5f-4c98-9fe3-67fe8f03a995
+      m_Id: 6ae4a9ad-951f-4481-9912-a186847c69f4
       m_Path: <Keyboard>/downArrow
       m_Interactions: 
       m_Processors: 
@@ -147,7 +147,7 @@ MonoBehaviour:
       m_Action: Navigate
       m_Flags: 8
     - m_Name: Left
-      m_Id: a78bf7a7-79a5-4bec-9ffa-2972f95d95ec
+      m_Id: 47442a57-5d47-4a03-b7ae-3051fd1b5ef0
       m_Path: <Keyboard>/leftArrow
       m_Interactions: 
       m_Processors: 
@@ -155,7 +155,7 @@ MonoBehaviour:
       m_Action: Navigate
       m_Flags: 8
     - m_Name: Right
-      m_Id: cad4e392-a26d-428a-bc09-7f647c99dfe3
+      m_Id: b91405f6-2fce-4bd1-998a-924950f21c56
       m_Path: <Keyboard>/rightArrow
       m_Interactions: 
       m_Processors: 
@@ -163,7 +163,7 @@ MonoBehaviour:
       m_Action: Navigate
       m_Flags: 8
     - m_Name: 
-      m_Id: 50599210-8397-4c04-81ee-2478efedb9dd
+      m_Id: e452d595-ad70-476e-845d-b2ddb13014de
       m_Path: <Keyboard>/enter
       m_Interactions: 
       m_Processors: 
@@ -171,7 +171,7 @@ MonoBehaviour:
       m_Action: Submit
       m_Flags: 0
     - m_Name: 
-      m_Id: dead14f1-ceb0-4b90-9b07-b300f6e3a5dc
+      m_Id: e85dde0c-ecbe-4727-8abb-787100b3cc28
       m_Path: <Keyboard>/escape
       m_Interactions: 
       m_Processors: 
