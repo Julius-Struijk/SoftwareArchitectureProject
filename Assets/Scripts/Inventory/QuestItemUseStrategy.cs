@@ -7,6 +7,11 @@ namespace CMGTSA.Inventory
     /// </summary>
     public class QuestItemUseStrategy : IItemUseStrategy
     {
-        public ItemUseEffect Apply(ItemData item, IItemUseContext context) => ItemUseEffect.NoEffect;
+        public ItemUseEffect Apply(ItemData item, IItemUseContext context)
+        {
+            _ = item;
+            _ = context;
+            return ItemUseEffect.NoEffect;
+        }
     }
 }

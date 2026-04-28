@@ -10,7 +10,7 @@ namespace CMGTSA.Inventory
         public ItemUseEffect Apply(ItemData item, IItemUseContext context)
         {
             if (item == null || context == null) return ItemUseEffect.NoEffect;
-            context.Heal(item.consumableHealAmount);
+            context.Heal(item.consumableHealAmount); // zero-heal is intentional: consume regardless (designer's data responsibility)
             return ItemUseEffect.Consumed;
         }
     }
