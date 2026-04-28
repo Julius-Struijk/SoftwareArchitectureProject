@@ -1,5 +1,6 @@
 using UnityEngine;
 using CMGTSA.Battle;
+using CMGTSA.Inventory;
 
 namespace CMGTSA.Enemies
 {
@@ -32,6 +33,9 @@ namespace CMGTSA.Enemies
 
         [Tooltip("Outgoing damage when this enemy attacks. Inspector-assigned.")]
         public DamageData attackDamage;
+
+        [Tooltip("Slice 3: rolled by LootDropper on EnemyDiedEvent. Each entry is independent.")]
+        public LootEntry[] lootTable;
 
         public Enemy CreateEnemy()
         {
