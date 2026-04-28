@@ -21,7 +21,6 @@ namespace CMGTSA.Game
         private void DisableNonDefaultActionMaps()
         {
             playerInput = GetComponent<PlayerInput>();
-            playerInput.SwitchCurrentActionMap("UI");
             playerInput.SwitchCurrentActionMap("Player");
         }
     }
