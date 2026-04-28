@@ -17,6 +17,7 @@ namespace CMGTSA.Inventory
 
         public void Configure(ItemData data)
         {
+            if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
             itemData = data;
             ApplyIcon();
         }
@@ -36,10 +37,13 @@ namespace CMGTSA.Inventory
 
         private void ApplyIcon()
         {
-            if (spriteRenderer != null && itemData != null && itemData.icon != null)
+            if (spriteRenderer == null || itemData == null) return;
+            if (itemData.icon == null)
             {
-                spriteRenderer.sprite = itemData.icon;
+                Debug.LogWarning($"[ItemPickup] {itemData.displayName} has no icon assigned.");
+                return;
             }
+            spriteRenderer.sprite = itemData.icon;
         }
 
         private void OnTriggerEnter2D(Collider2D other)
