@@ -55,7 +55,6 @@ namespace CMGTSA.Inventory
             }
 
             sortStrategy.Sort(slots);
-            EventBus<ItemPickedUpEvent>.Publish(new ItemPickedUpEvent(item, default));
             OnChanged?.Invoke();
         }
 

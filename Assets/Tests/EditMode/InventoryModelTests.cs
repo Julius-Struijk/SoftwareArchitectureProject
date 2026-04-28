@@ -74,19 +74,16 @@ namespace CMGTSA.Tests
         }
 
         [Test]
-        public void Add_stackable_twice_yields_one_slot_count_two_and_publishes_pickup_twice()
+        public void Add_stackable_twice_yields_one_slot_count_two()
         {
             var inv = new InventoryModel(ctx, registry);
             var potion = MakeItem("Potion", consumableCat, stackable: true, heal: 3);
-            int pickedEvents = 0;
-            EventBus<ItemPickedUpEvent>.Subscribe(_ => pickedEvents++);
 
             inv.Add(potion);
             inv.Add(potion);
 
             Assert.AreEqual(1, inv.Slots.Count);
             Assert.AreEqual(2, inv.Slots[0].Count);
-            Assert.AreEqual(2, pickedEvents);
             Object.DestroyImmediate(potion);
         }
 
