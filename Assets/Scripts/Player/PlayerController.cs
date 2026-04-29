@@ -3,6 +3,7 @@ using CMGTSA.Battle;
 using CMGTSA.Core;
 using CMGTSA.Enemies;
 using CMGTSA.Inventory;
+using CMGTSA.Quests;
 
 namespace CMGTSA.Player
 {
@@ -78,6 +79,7 @@ namespace CMGTSA.Player
         {
             EventBus<EnemyDiedEvent>.Subscribe(OnEnemyDied);
             EventBus<ItemPickedUpEvent>.Subscribe(OnItemPickedUp);
+            EventBus<QuestCompletedEvent>.Subscribe(OnQuestCompleted);
             fsm.Enter();
         }
 
@@ -85,6 +87,7 @@ namespace CMGTSA.Player
         {
             EventBus<EnemyDiedEvent>.Unsubscribe(OnEnemyDied);
             EventBus<ItemPickedUpEvent>.Unsubscribe(OnItemPickedUp);
+            EventBus<QuestCompletedEvent>.Unsubscribe(OnQuestCompleted);
         }
 
         private void Start()
@@ -128,6 +131,11 @@ namespace CMGTSA.Player
         private void OnItemPickedUp(ItemPickedUpEvent evt)
         {
             inventory.Add(evt.Item);
+        }
+
+        private void OnQuestCompleted(QuestCompletedEvent evt)
+        {
+            stats.GainXP(evt.XPReward);
         }
     }
 }
