@@ -37,11 +37,16 @@ namespace CMGTSA.Battle
 
         private void OnPlayerAttack(PlayerAttackRequestedEvent evt)
         {
-            // Sweep a circle in front of the player along the facing direction.
-            Vector3 dir = evt.Direction.sqrMagnitude > 0.0001f
-                ? (Vector3)evt.Direction.normalized
-                : Vector3.right;
-            Vector3 center = evt.Origin + dir * (evt.Range * 0.5f);
+            Vector3 center;
+            if (evt.Direction.sqrMagnitude > 0.0001f)
+            {
+                Vector3 dir = (Vector3)evt.Direction.normalized;
+                center = evt.Origin + dir * (evt.Range * 0.5f);
+            }
+            else
+            {
+                center = evt.Origin;
+            }
 
             ResolveHits(center, evt.Range, enemyMask, evt.Damage);
         }
