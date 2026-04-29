@@ -4,6 +4,7 @@ using CMGTSA.Core;
 using CMGTSA.Enemies;
 using CMGTSA.Inventory;
 using CMGTSA.Quests;
+using CMGTSA.Skills;
 
 namespace CMGTSA.Player
 {
@@ -42,18 +43,21 @@ namespace CMGTSA.Player
         private PlayerFSM fsm;
         private InventoryModel inventory;
         private PlayerInventoryContext inventoryContext;
+        private PlayerSkillContext skillContext;
+        private float speedMultiplier = 1f;
 
         public PlayerControl Input => input;
         public Rigidbody2D Body => body;
         public PlayerStatsModel Stats => stats;
         public InventoryModel Inventory => inventory;
         public Vector2 LastFacing { get; private set; } = Vector2.right;
+        public ISkillContext SkillContext => skillContext;
 
         public DamageData AttackDamage => attackDamage;
         public float AttackRange => attackRange;
         public float AttackInterval => attackInterval;
         public float HurtDuration => hurtDuration;
-        public float MoveSpeed => moveSpeed;
+        public float MoveSpeed => moveSpeed * speedMultiplier;
 
         private bool wantsHurt;
         public bool ConsumeHurt() { bool r = wantsHurt; wantsHurt = false; return r; }
@@ -73,6 +77,7 @@ namespace CMGTSA.Player
                 (questCategory,      (IItemUseStrategy)new QuestItemUseStrategy()),
             });
             inventory = new InventoryModel(inventoryContext, registry);
+            skillContext = new PlayerSkillContext(this);
         }
 
         private void OnEnable()
@@ -136,6 +141,23 @@ namespace CMGTSA.Player
         private void OnQuestCompleted(QuestCompletedEvent evt)
         {
             stats.GainXP(evt.XPReward);
+        }
+
+        public void ApplySpeedMultiplier(float multiplier)
+        {
+            if (multiplier <= 0f) return;
+            speedMultiplier *= multiplier;
+        }
+
+        public void Teleport(Vector3 destination)
+        {
+            transform.position = destination;
+            if (body != null) body.linearVelocity = Vector2.zero;
+        }
+
+        public void ResetSpeedMultiplier()
+        {
+            speedMultiplier = 1f;
         }
     }
 }

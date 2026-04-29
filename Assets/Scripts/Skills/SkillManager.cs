@@ -39,13 +39,12 @@ namespace CMGTSA.Skills
 
         private void ResolveContext()
         {
-            // Temporarily commented — restored in Task 12 after PlayerController.SkillContext is added.
-            // if (context != null) return;
-            // var go = GameObject.FindGameObjectWithTag("Player");
-            // if (go == null) return;
-            // var pc = go.GetComponent<PlayerController>();
-            // if (pc == null) return;
-            // context = pc.SkillContext;
+            if (context != null) return;
+            var go = GameObject.FindGameObjectWithTag("Player");
+            if (go == null) return;
+            var pc = go.GetComponent<PlayerController>();
+            if (pc == null) return;
+            context = pc.SkillContext;
         }
 
         private void OnGameRestarted(GameRestartedEvent _)
