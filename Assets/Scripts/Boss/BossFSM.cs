@@ -4,7 +4,7 @@ using CMGTSA.FSM;
 
 namespace CMGTSA.Boss
 {
-    public class BossFSM : FSM
+    public class BossFSM : CMGTSA.FSM.FSM
     {
         public readonly BossIdleState idleState;
         public readonly BossChaseState chaseState;
