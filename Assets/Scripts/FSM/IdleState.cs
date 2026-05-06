@@ -19,7 +19,7 @@ namespace CMGTSA.FSM
         public override void Enter()
         {
             base.Enter();
-            Debug.Log("Entered Idle state.");
+            //Debug.Log("Entered Idle state.");
             startTime = Time.time;
         }
 

@@ -27,7 +27,7 @@ namespace CMGTSA.FSM
         public override void Enter()
         {
             base.Enter();
-            Debug.Log("Entered Attack state.");
+            //Debug.Log("Entered Attack state.");
             attackStartTime = Time.time;
             onAttack?.Invoke();
             Debug.Log(transform.gameObject.name + " is attacking " + target.gameObject.name);

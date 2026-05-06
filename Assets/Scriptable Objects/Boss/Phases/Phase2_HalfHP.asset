@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a5621c5fd2487a4d9c938545a1299bd, type: 3}
+  m_Name: Phase2_HalfHP
+  m_EditorClassIdentifier: CMGTSA.Runtime::CMGTSA.Boss.BossPhase
+  displayName: "Phase 2 \u2014 Ranged Pressure"
+  hpThresholdEnter: 0.66
+  patterns:
+  - {fileID: 11400000, guid: 5164c528fc36d8847976cdff4ca876ad, type: 2}
+  - {fileID: 11400000, guid: c344866a6d2b8df4382117d65d7103eb, type: 2}
+  - {fileID: 11400000, guid: 5164c528fc36d8847976cdff4ca876ad, type: 2}
+  castIntervalSeconds: 1.6
