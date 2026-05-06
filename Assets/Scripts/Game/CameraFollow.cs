@@ -14,6 +14,9 @@ namespace CMGTSA.Game
         Vector3 offset;
         private Camera cam;
         private float baseOrthoSize;
+        [SerializeField, Min(0f), Tooltip("SmoothDamp time. ~0.08 feels responsive without jitter.")]
+        private float smoothTime = 0.08f;
+        private Vector3 followVelocity;
 
         void Awake()
         {
@@ -40,8 +43,10 @@ namespace CMGTSA.Game
 
         void LateUpdate()
         {
-            transform.position = target.position;
-            transform.position = new Vector3(transform.position.x, transform.position.y, offset.z);
+            if (target == null) return;
+            Vector3 desired = new Vector3(target.position.x, target.position.y, transform.position.z);
+            Vector3 newPos  = Vector3.SmoothDamp(transform.position, desired, ref followVelocity, smoothTime);
+            transform.position = new Vector3(newPos.x, newPos.y, offset.z);
         }
 
         private void OnEncounterStarted(BossEncounterStartedEvent _)
