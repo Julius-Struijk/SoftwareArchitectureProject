@@ -20,6 +20,7 @@ namespace CMGTSA.Feel
         [Min(0f)] [SerializeField] private float dipUnscaledSeconds = 0.06f;
 
         private bool dipping;
+        private float previous;
 
         private void OnEnable()
         {
@@ -29,6 +30,11 @@ namespace CMGTSA.Feel
         private void OnDisable()
         {
             EventBus<DamageDealtEvent>.Unsubscribe(OnDamageDealt);
+            if (dipping)
+            {
+                Time.timeScale = previous;
+                dipping = false;
+            }
         }
 
         private void OnDamageDealt(DamageDealtEvent _)
@@ -40,7 +46,7 @@ namespace CMGTSA.Feel
         private IEnumerator Dip()
         {
             dipping = true;
-            float previous = Time.timeScale;
+            previous = Time.timeScale;
             Time.timeScale = dipScale;
             yield return new WaitForSecondsRealtime(dipUnscaledSeconds);
             Time.timeScale = previous;
