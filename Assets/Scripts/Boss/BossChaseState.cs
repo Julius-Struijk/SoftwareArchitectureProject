@@ -29,6 +29,15 @@ namespace CMGTSA.Boss
         {
             base.Enter();
             chaseStartTime = Time.time;
+            if (agent != null && agent.enabled && agent.isOnNavMesh)
+                agent.isStopped = false;
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+            if (agent != null && agent.enabled && agent.isOnNavMesh)
+                agent.ResetPath();
         }
 
         public override void Step()

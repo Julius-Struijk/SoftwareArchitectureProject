@@ -52,22 +52,17 @@ public class Slice6SceneSetup
         triggerSO.FindProperty("boss").objectReferenceValue = bossController;
         triggerSO.ApplyModifiedPropertiesWithoutUndo();
 
-        // Find HUD parent for UI prefabs
-        Transform hudParent = FindHUDParent(scene);
-
-        // Place BossHPBar
+        // Place BossHPBar — keep at scene root; it owns its own Screen Space Overlay Canvas
         GameObject hpBarPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(BossHPBarPrefabPath);
         if (hpBarPrefab == null) { Debug.LogError($"Slice6SceneSetup: {BossHPBarPrefabPath} missing."); return; }
         GameObject hpBar = (GameObject)PrefabUtility.InstantiatePrefab(hpBarPrefab);
         hpBar.name = "BossHPBar";
-        if (hudParent != null) hpBar.transform.SetParent(hudParent, false);
 
-        // Place VictoryPanel
+        // Place VictoryPanel — keep at scene root; it owns its own Screen Space Overlay Canvas
         GameObject victoryPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(VictoryPrefabPath);
         if (victoryPrefab == null) { Debug.LogError($"Slice6SceneSetup: {VictoryPrefabPath} missing."); return; }
         GameObject victory = (GameObject)PrefabUtility.InstantiatePrefab(victoryPrefab);
         victory.name = "VictoryPanel";
-        if (hudParent != null) victory.transform.SetParent(hudParent, false);
 
         // Wire VictoryUI → GameManager
         VictoryUI victoryUI = victory.GetComponent<VictoryUI>();
@@ -86,22 +81,6 @@ public class Slice6SceneSetup
         EditorSceneManager.MarkSceneDirty(scene);
         EditorSceneManager.SaveScene(scene);
         Debug.Log("Slice6SceneSetup: boss + trigger + HP bar + victory panel placed in GameScene.");
-    }
-
-    private static Transform FindHUDParent(Scene scene)
-    {
-        foreach (GameObject root in scene.GetRootGameObjects())
-        {
-            if (root.name == "HUD") return root.transform;
-            Transform hud = root.transform.Find("HUD");
-            if (hud != null) return hud;
-        }
-        // Fallback: first Canvas in the scene
-        foreach (GameObject root in scene.GetRootGameObjects())
-        {
-            if (root.GetComponent<Canvas>() != null) return root.transform;
-        }
-        return null;
     }
 
     private static void DestroyByName(Scene scene, string name)

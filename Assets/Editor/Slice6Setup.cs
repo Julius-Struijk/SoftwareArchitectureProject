@@ -63,7 +63,7 @@ public class Slice6Setup
             p.displayName = "Phase 1 — Aggressive Melee";
             p.hpThresholdEnter = 1.0f;
             p.castIntervalSeconds = 2f;
-            p.patterns = new SOBossAttackPattern[] { melee, spray };
+            p.patterns = new SOBossAttackPattern[] { melee };
         });
 
         var phase2 = CreateOrLoad<BossPhase>("Phase2_HalfHP", PhasesDir, p =>

@@ -34,9 +34,12 @@ public class Slice6PrefabSetup
         Debug.Log("Slice6PrefabSetup: 4 prefabs created/updated.");
     }
 
+    private const int EnemyLayer = 7;
+
     private static void SaveBossPrefab()
     {
         GameObject root = new GameObject("Boss");
+        root.layer = EnemyLayer;
         Rigidbody2D body = root.AddComponent<Rigidbody2D>();
         body.bodyType = RigidbodyType2D.Kinematic;
         CircleCollider2D col = root.AddComponent<CircleCollider2D>();

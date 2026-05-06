@@ -24,7 +24,7 @@ namespace CMGTSA.FSM
         public override void Enter()
         {
             base.Enter();
-            Debug.Log("Entered MoveTo state.");
+            //Debug.Log("Entered enemy MoveTo state.");
             if (navMeshAgent == null) return;
             navMeshAgent.enabled = true;
             navMeshAgent.speed = enemy.moveSpeed;

@@ -25,6 +25,7 @@ namespace CMGTSA.Boss
 
         public bool Damage(int amount)
         {
+            Debug.LogFormat("Boss took {0} damage.", amount);
             if (amount <= 0) return Current == 0;
             Current = Mathf.Max(0, Current - amount);
             EventBus<BossHPChangedEvent>.Publish(new BossHPChangedEvent(Current, Max, PhaseIndex));

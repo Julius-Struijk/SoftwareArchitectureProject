@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7136565854623943454}
   - component: {fileID: 8303784716066938845}
   - component: {fileID: 477998402526726386}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 61487979, guid: ff8c38fc992f4d5488eeec2f6f220f57, type: 3}
   m_Color: {r: 0.5, g: 0.1, b: 0.6, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -156,7 +156,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
 --- !u!195 &8303784716066938845
 NavMeshAgent:
@@ -192,5 +192,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ae7eba524a257549a6cf276545ac03b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: CMGTSA.Runtime::CMGTSA.Boss.BossController
-  bossData: {fileID: 0}
-  agent: {fileID: 0}
+  bossData: {fileID: 11400000, guid: de2774743afb80e44a7ae3e9e6f1a613, type: 2}
+  agent: {fileID: 8303784716066938845}
