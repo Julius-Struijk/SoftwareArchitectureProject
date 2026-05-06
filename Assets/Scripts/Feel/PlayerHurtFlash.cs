@@ -10,7 +10,6 @@ namespace CMGTSA.Feel
     /// any HP drop. Lives on the player prefab so the renderer reference is local; no
     /// scene wiring required beyond the component.
     /// </summary>
-    [RequireComponent(typeof(SpriteRenderer))]
     public class PlayerHurtFlash : MonoBehaviour
     {
         [SerializeField] private Color flashColor   = new Color(1f, 0.3f, 0.3f);
@@ -22,8 +21,9 @@ namespace CMGTSA.Feel
 
         private void Awake()
         {
-            sr = GetComponent<SpriteRenderer>();
-            baseColor = sr.color;
+            // Search children too — the SpriteRenderer may be on a child object
+            sr = GetComponentInChildren<SpriteRenderer>(includeInactive: true);
+            if (sr != null) baseColor = sr.color;
         }
 
         private void OnEnable()
@@ -38,7 +38,7 @@ namespace CMGTSA.Feel
 
         private void OnHPChanged(PlayerHPChangedEvent evt)
         {
-            if (evt.Delta >= 0) return;
+            if (evt.Delta >= 0 || sr == null) return;
             if (flashRoutine != null) StopCoroutine(flashRoutine);
             flashRoutine = StartCoroutine(Flash());
         }
@@ -46,7 +46,8 @@ namespace CMGTSA.Feel
         private IEnumerator Flash()
         {
             sr.color = flashColor;
-            yield return new WaitForSeconds(flashDuration);
+            // Unscaled so hit-stop (timeScale ≈ 0) doesn't freeze the flash
+            yield return new WaitForSecondsRealtime(flashDuration);
             sr.color = baseColor;
             flashRoutine = null;
         }

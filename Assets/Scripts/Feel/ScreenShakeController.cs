@@ -8,9 +8,8 @@ namespace CMGTSA.Feel
 {
     /// <summary>
     /// Slice-7 polish: camera shake. Subscribes to multiple existing events and tunes the
-    /// shake parameters per source. Lives as a child of the main Camera and applies its
-    /// shake as a local-position offset; the parent camera's <c>LateUpdate</c> follow logic
-    /// remains untouched.
+    /// shake parameters per source. Applies an additive world-position offset in LateUpdate
+    /// so it layers on top of CameraFollow without interfering with the camera's base position.
     /// </summary>
     [RequireComponent(typeof(Camera))]
     public class ScreenShakeController : MonoBehaviour
@@ -51,17 +50,16 @@ namespace CMGTSA.Feel
 
         private void LateUpdate()
         {
-            if (remaining <= 0f)
-            {
-                transform.localPosition = Vector3.zero;
-                return;
-            }
+            if (remaining <= 0f) return;
 
             remaining -= Time.unscaledDeltaTime;
+            if (remaining <= 0f) return;
+
             float t = Time.unscaledTime * frequency;
             float x = (Mathf.PerlinNoise(seed,        t) - 0.5f) * 2f;
             float y = (Mathf.PerlinNoise(seed + 17f,  t) - 0.5f) * 2f;
-            transform.localPosition = new Vector3(x, y, 0f) * magnitude;
+            // Additive offset on top of CameraFollow's world position
+            transform.position += new Vector3(x, y, 0f) * magnitude;
         }
 
         private void Trigger(float mag, float dur)

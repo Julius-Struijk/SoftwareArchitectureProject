@@ -17,4 +17,5 @@ MonoBehaviour:
   description: Damage every enemy in a small radius.
   requiredLevel: 2
   cooldownSeconds: 6
+  OnUsedVFXPrefab: {fileID: 7525105470343545408, guid: ff6c8080504ef4c48a7925e569a438d6, type: 3}
   effect: {fileID: 11400000, guid: 2e742157488e4cc4383326cabe79d904, type: 2}
