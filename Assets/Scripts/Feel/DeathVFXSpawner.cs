@@ -37,7 +37,7 @@ namespace CMGTSA.Feel
         private void OnBossEnded(BossEncounterEndedEvent evt)
         {
             if (!evt.Victory) return;
-            Spawn(bossDeathPrefab != null ? bossDeathPrefab : null, Vector3.zero);
+            Spawn(bossDeathPrefab, Vector3.zero); // Spawn no-ops if bossDeathPrefab is null
         }
 
         private static void Spawn(GameObject prefab, Vector3 position)
