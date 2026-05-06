@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faad81b7a5710a34998695cca5d1d438, type: 3}
+  m_Name: AudioCatalog
+  m_EditorClassIdentifier: CMGTSA.Runtime::CMGTSA.Audio.AudioCatalog
+  entries:
+  - slot: 0
+    clip: {fileID: 8300000, guid: 0a669e822f143024da8c9abc15c7ca18, type: 3}
+    volume: 1
+  - slot: 1
+    clip: {fileID: 8300000, guid: a2d7a278541ab6a46839e9ea8c667b8b, type: 3}
+    volume: 1
+  - slot: 2
+    clip: {fileID: 8300000, guid: c7f0bb0105680ed438d430fab886cc74, type: 3}
+    volume: 1
+  - slot: 3
+    clip: {fileID: 8300000, guid: ce02ea6b7e879ad47954d4527bfc491d, type: 3}
+    volume: 1
+  - slot: 4
+    clip: {fileID: 8300000, guid: 2db7fc0d32c17014f8cb2e14bb706ba6, type: 3}
+    volume: 1
+  - slot: 5
+    clip: {fileID: 8300000, guid: cffd6ca5a01a85f41bf2c63bd546e3cf, type: 3}
+    volume: 1
+  - slot: 6
+    clip: {fileID: 8300000, guid: 9f1824ea8ba0e3c4e902ca0efa7cea72, type: 3}
+    volume: 1
+  - slot: 7
+    clip: {fileID: 8300000, guid: 6b158935c5eef514486ebdea631bedb8, type: 3}
+    volume: 1
+  - slot: 8
+    clip: {fileID: 8300000, guid: d1bfdb651c9df1b4b91ee28fdfff5fba, type: 3}
+    volume: 1

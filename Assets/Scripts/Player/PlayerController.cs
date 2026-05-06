@@ -28,6 +28,12 @@ namespace CMGTSA.Player
 
         [Header("Hurt")]
         [SerializeField] private float hurtDuration = 0.3f;
+        [Tooltip("Seconds the player is invulnerable after taking damage.")]
+        [Min(0f)] [SerializeField] private float iframeDuration = 0.4f;
+        private float iframeUntil;
+
+        public bool IsInvincible => Time.time < iframeUntil;
+        public void StartIFrames() => iframeUntil = Time.time + iframeDuration;
 
         [Header("Inventory (slice 3)")]
         [Tooltip("ItemCategory SO for consumables (HP potions, food).")]
@@ -116,6 +122,7 @@ namespace CMGTSA.Player
         public bool TakeDamage(int amount)
         {
             if (amount <= 0) return false;
+            if (IsInvincible) return false;
             int prev = stats.CurrentHP;
             stats.Damage(amount);
             // Trigger the Hurt-state transition only if this was a non-fatal hit.

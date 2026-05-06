@@ -708,6 +708,7 @@ GameObject:
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -846,7 +847,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
   target: {fileID: 701832612685304542}
-  bossEncounterZoomMultiplier: 0.7
+  bossEncounterZoomMultiplier: 0.8
+  smoothTime: 0.08
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eca5b7f1341834d4ca3825e5a3cc271c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CMGTSA.Runtime::CMGTSA.Feel.ScreenShakeController
+  hitMagnitude: 0.1
+  hitDuration: 0.1
+  bossIntroMagnitude: 0.25
+  bossIntroDuration: 0.4
+  deathMagnitude: 0.4
+  deathDuration: 0.8
+  frequency: 25
 --- !u!1001 &533445190
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1421,6 +1442,97 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab3eeb4649215554b8df487c00dfcf45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerControl
+--- !u!1 &1138039125
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1138039130}
+  - component: {fileID: 1138039129}
+  - component: {fileID: 1138039128}
+  - component: {fileID: 1138039127}
+  - component: {fileID: 1138039126}
+  m_Layer: 0
+  m_Name: FeedbackSystems
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1138039126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138039125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a0630ed9b42eaa46ba34cad427d7f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CMGTSA.Runtime::CMGTSA.Feel.DamageNumberSpawner
+  damageNumberPrefab: {fileID: 4356645962375215413, guid: c96ee24505d2ff04a8ca4a8c6158a79b, type: 3}
+  jitter: 0.25
+  playerHurtColor: {r: 1, g: 0.4, b: 0.4, a: 1}
+  enemyHurtColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &1138039127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138039125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dea421069aa4e444e8675636f5cafb04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CMGTSA.Runtime::CMGTSA.Feel.DeathVFXSpawner
+  enemyDeathPrefab: {fileID: 530370050614835072, guid: dade323304b4d4041850666585d7dcf5, type: 3}
+  bossDeathPrefab: {fileID: 530370050614835072, guid: dade323304b4d4041850666585d7dcf5, type: 3}
+--- !u!114 &1138039128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138039125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c71cc0832c827ab439ba324c4049dff7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CMGTSA.Runtime::CMGTSA.Feel.HitVFXSpawner
+--- !u!114 &1138039129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138039125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81b96aed3e9848d4ea8f2534733d259b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CMGTSA.Runtime::CMGTSA.Feel.HitStopController
+  dipScale: 0.05
+  dipUnscaledSeconds: 0.06
+--- !u!4 &1138039130
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138039125}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1572587391
 GameObject:
   m_ObjectHideFlags: 0
@@ -7288,6 +7400,167 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 85b7a74cdd83c704397640103c166214, type: 3}
+--- !u!1 &1879874819
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1879874823}
+  - component: {fileID: 1879874822}
+  - component: {fileID: 1879874821}
+  - component: {fileID: 1879874820}
+  m_Layer: 0
+  m_Name: Audio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1879874820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879874819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd12bf5dedaba624fb2e7a3bd2cf3159, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CMGTSA.Runtime::CMGTSA.Audio.MusicController
+  bgClip: {fileID: 8300000, guid: f7e3643a9d804e8448d9f464f02aeb0f, type: 3}
+  bossClip: {fileID: 8300000, guid: 1b068bb839f935b458f8e508dbe4882e, type: 3}
+  bgVolume: 0.5
+  bossVolume: 0.5
+  crossFadeSeconds: 1.5
+--- !u!114 &1879874821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879874819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efadae185c4a04f4c9fd39bf355b0729, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CMGTSA.Runtime::CMGTSA.Audio.SFXController
+  catalog: {fileID: 11400000, guid: 637504bfb832fb840bfa7240b3c52f01, type: 2}
+--- !u!82 &1879874822
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879874819}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &1879874823
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1879874819}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2093488098
 GameObject:
   m_ObjectHideFlags: 0
@@ -42200,3 +42473,5 @@ SceneRoots:
   - {fileID: 2745409}
   - {fileID: 1653517726}
   - {fileID: 533445190}
+  - {fileID: 1138039130}
+  - {fileID: 1879874823}
