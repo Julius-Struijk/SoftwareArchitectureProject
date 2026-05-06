@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f36eb7cd1ab4164bbf59da543761da1, type: 3}
   m_Name: DamageType_EnemyMelee
   m_EditorClassIdentifier: CMGTSA.Runtime::CMGTSA.Battle.DamageType
-  VFX: {fileID: 0}
+  VFX: {fileID: 6880437468843673906, guid: d1bcf510299600b43ad1c114ad7559a7, type: 3}
