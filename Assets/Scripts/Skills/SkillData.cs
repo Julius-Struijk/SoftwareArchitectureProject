@@ -24,6 +24,9 @@ namespace CMGTSA.Skills
         [Min(0f)] public float cooldownSeconds = 4f;
 
         [Header("Behaviour")]
+        [Tooltip("Slice-7 Tier 2 polish. Spawned at the player when this skill is used.")]
+        public GameObject OnUsedVFXPrefab;
+
         [Tooltip("Polymorphic SO Strategy.")]
         public SOSkillEffect effect;
 
