@@ -18,6 +18,7 @@ namespace CMGTSA.Player
         {
             base.Enter();
             owner.Body.linearVelocity = Vector2.zero;
+            owner.StartIFrames();
             startTime = Time.time;
         }
 
