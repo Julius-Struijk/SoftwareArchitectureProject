@@ -42130,6 +42130,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 184228778763789230, guid: 9413a1b33ac89234cb53ae54981c467f, type: 3}
+      propertyPath: attackRange
+      value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 184228778763789230, guid: 9413a1b33ac89234cb53ae54981c467f, type: 3}
       propertyPath: attackDamage.damage
       value: 2
       objectReference: {fileID: 0}

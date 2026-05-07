@@ -24,7 +24,7 @@ namespace CMGTSA.Player
 
         [Header("Attack")]
         [SerializeField] private DamageData attackDamage;
-        [SerializeField] private float attackRange = 1.5f;
+        [SerializeField] private float attackRange = 0.75f;
         [SerializeField] private float attackInterval = 0.4f;
 
         [Header("Hurt")]
@@ -48,6 +48,7 @@ namespace CMGTSA.Player
         private Rigidbody2D body;
         private PlayerStatsModel stats;
         private PlayerFSM fsm;
+        private AttackCooldown attackCooldown;
         private InventoryModel inventory;
         private PlayerInventoryContext inventoryContext;
         private PlayerSkillContext skillContext;
@@ -119,6 +120,18 @@ namespace CMGTSA.Player
             {
                 LastFacing = input.MoveInput.normalized;
             }
+
+            // Per-frame attack: independent of the FSM so the player can attack while moving.
+            // Section 4.2 of post-slice-8 spec will swap attackDamage for BuildAttackPayload().
+            if (input.ConsumeAttackQueued() && attackCooldown.TryFire(Time.time, attackInterval))
+            {
+                EventBus<PlayerAttackRequestedEvent>.Publish(new PlayerAttackRequestedEvent(
+                    transform.position,
+                    LastFacing,
+                    attackRange,
+                    attackDamage));
+            }
+
             fsm.Step();
         }
 

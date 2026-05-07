@@ -64,6 +64,8 @@ namespace CMGTSA.Battle
             Collider2D[] hits = Physics2D.OverlapCircleAll(center, radius, mask);
             for (int i = 0; i < hits.Length; i++)
             {
+                // Skip trigger colliders (detection zones, etc.) — only hit solid hitboxes.
+                if (hits[i].isTrigger) continue;
                 IDamageable target = hits[i].GetComponentInParent<IDamageable>();
                 if (target == null) continue;
 
