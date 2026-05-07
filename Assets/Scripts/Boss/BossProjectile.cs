@@ -42,8 +42,10 @@ namespace CMGTSA.Boss
             if (((1 << other.gameObject.layer) & playerLayer.value) == 0) return;
             if (damage != null)
             {
+                // Radius 0.5f reliably contains the player's collider centre at
+                // first overlap. Was 0.1f, which often missed (post-slice-8 spec §2.3).
                 EventBus<EnemyAttackRequestedEvent>.Publish(new EnemyAttackRequestedEvent(
-                    transform.position, 0.1f, damage, transform));
+                    transform.position, 0.5f, damage, transform));
             }
             Destroy(gameObject);
         }
