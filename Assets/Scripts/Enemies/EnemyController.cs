@@ -4,6 +4,7 @@ using UnityEngine.AI;
 using CMGTSA.Battle;
 using CMGTSA.Core;
 using CMGTSA.FSM;
+using CMGTSA.Game;
 
 namespace CMGTSA.Enemies
 {
@@ -55,12 +56,14 @@ namespace CMGTSA.Enemies
         private void OnEnable()
         {
             EventBus<AlertLevelChangedEvent>.Subscribe(OnAlertLevelChanged);
+            EventBus<DebugCheatToggledEvent>.Subscribe(OnDebugCheat);
             enemyFSM.Enter();
         }
 
         private void OnDisable()
         {
             EventBus<AlertLevelChangedEvent>.Unsubscribe(OnAlertLevelChanged);
+            EventBus<DebugCheatToggledEvent>.Unsubscribe(OnDebugCheat);
         }
 
         private void Start()
@@ -74,6 +77,16 @@ namespace CMGTSA.Enemies
         private void Update()
         {
             enemyFSM.Step();
+        }
+
+        private void OnDebugCheat(DebugCheatToggledEvent evt)
+        {
+#if UNITY_EDITOR
+            if (evt.Cheat == DebugCheat.InstantKill)
+            {
+                TakeDamage(99999);
+            }
+#endif
         }
 
         private void OnAlertLevelChanged(AlertLevelChangedEvent evt)
