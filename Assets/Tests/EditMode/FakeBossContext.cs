@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using CMGTSA.Battle;
@@ -16,6 +17,9 @@ namespace CMGTSA.Tests.EditMode
         public readonly List<MeleeCall> MeleeCalls = new List<MeleeCall>();
         public readonly List<ProjectileCall> ProjectileCalls = new List<ProjectileCall>();
         public readonly List<AddCall> AddCalls = new List<AddCall>();
+        public readonly List<NavMeshSampleCall> NavMeshSampleCalls = new List<NavMeshSampleCall>();
+
+        public Predicate<Vector3> NavMeshPredicate = null;
 
         public void RequestMeleeAttack(float range, DamageData damage)
         {
@@ -39,6 +43,18 @@ namespace CMGTSA.Tests.EditMode
             AddCalls.Add(new AddCall { Prefab = prefab, Position = position });
         }
 
+        public bool TrySampleNavMesh(Vector3 source, float maxDistance, out Vector3 valid)
+        {
+            NavMeshSampleCalls.Add(new NavMeshSampleCall { Source = source, MaxDistance = maxDistance });
+            if (NavMeshPredicate == null || NavMeshPredicate(source))
+            {
+                valid = source;
+                return true;
+            }
+            valid = source;
+            return false;
+        }
+
         public struct MeleeCall { public float Range; public DamageData Damage; }
         public struct ProjectileCall
         {
@@ -49,5 +65,6 @@ namespace CMGTSA.Tests.EditMode
             public DamageData Damage;
         }
         public struct AddCall { public GameObject Prefab; public Vector3 Position; }
+        public struct NavMeshSampleCall { public Vector3 Source; public float MaxDistance; }
     }
 }
