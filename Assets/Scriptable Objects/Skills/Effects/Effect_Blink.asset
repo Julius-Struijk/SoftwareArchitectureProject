@@ -13,3 +13,7 @@ MonoBehaviour:
   m_Name: Effect_Blink
   m_EditorClassIdentifier: CMGTSA.Runtime::CMGTSA.Skills.BlinkEffect
   distance: 4
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 256
+  skin: 0.1

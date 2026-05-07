@@ -81,5 +81,58 @@ namespace CMGTSA.Tests
         {
             Assert.DoesNotThrow(() => effect.Activate(null));
         }
+
+        [Test]
+        public void Activate_clamps_destination_to_hit_minus_skin_when_wall_blocks()
+        {
+            var ctx = new FakeSkillContext
+            {
+                PlayerPosition = Vector3.zero,
+                PlayerFacing   = Vector2.right
+            };
+            ctx.PhysicsField.ShouldHit = true;
+            ctx.PhysicsField.HitPoint  = new Vector2(3f, 0f);
+
+            effect.wallMask = ~0;
+            effect.skin     = 0.1f;
+
+            effect.Activate(ctx);
+
+            Assert.AreEqual(1, ctx.TeleportCalls.Count);
+            Assert.That(ctx.TeleportCalls[0].x, Is.EqualTo(2.9f).Within(0.0001f),
+                "Should clamp to hit.x - facing.x * skin.");
+            Assert.That(ctx.TeleportCalls[0].y, Is.EqualTo(0f).Within(0.0001f));
+        }
+
+        [Test]
+        public void Activate_uses_full_distance_when_no_wall_hits()
+        {
+            var ctx = new FakeSkillContext
+            {
+                PlayerPosition = Vector3.zero,
+                PlayerFacing   = Vector2.right
+            };
+
+            effect.Activate(ctx);
+
+            Assert.AreEqual(1, ctx.TeleportCalls.Count);
+            Assert.AreEqual(new Vector3(5f, 0f, 0f), ctx.TeleportCalls[0]);
+        }
+
+        [Test]
+        public void Activate_passes_origin_and_full_destination_to_physics_caster()
+        {
+            var ctx = new FakeSkillContext
+            {
+                PlayerPosition = new Vector3(2f, 1f, 0f),
+                PlayerFacing   = new Vector2(1f, 0f)
+            };
+
+            effect.Activate(ctx);
+
+            Assert.AreEqual(1, ctx.PhysicsField.Calls.Count);
+            Assert.AreEqual(new Vector3(2f, 1f, 0f), ctx.PhysicsField.Calls[0].From);
+            Assert.AreEqual(new Vector3(7f, 1f, 0f), ctx.PhysicsField.Calls[0].To);
+        }
     }
 }

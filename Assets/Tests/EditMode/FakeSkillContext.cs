@@ -10,6 +10,9 @@ namespace CMGTSA.Tests
         public Vector3 PlayerPosition { get; set; } = Vector3.zero;
         public Vector2 PlayerFacing { get; set; } = Vector2.right;
 
+        public FakePhysicsLineCaster PhysicsField = new FakePhysicsLineCaster();
+        public IPhysicsLineCaster Physics => PhysicsField;
+
         public readonly List<float> SpeedMultiplierCalls = new List<float>();
 
         public struct AreaDamageCall { public Vector3 origin; public float radius; public DamageData damage; }
