@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: Blink
   icon: {fileID: 0}
   description: Dash forward instantly.
-  requiredLevel: 3
+  requiredLevel: 4
   cooldownSeconds: 4
   OnUsedVFXPrefab: {fileID: 7525105470343545408, guid: ff6c8080504ef4c48a7925e569a438d6, type: 3}
   effect: {fileID: 11400000, guid: c79a2db4a0535d44693fd30a41752855, type: 2}
