@@ -26,8 +26,8 @@ namespace CMGTSA.Tests.EditMode
         [TearDown]
         public void TearDown()
         {
-            Object.DestroyImmediate(pattern);
-            Object.DestroyImmediate(dummyPrefab);
+            UnityEngine.Object.DestroyImmediate(pattern);
+            UnityEngine.Object.DestroyImmediate(dummyPrefab);
         }
 
         [Test]

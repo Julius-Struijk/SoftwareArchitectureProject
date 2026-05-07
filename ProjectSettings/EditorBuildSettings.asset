@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tests/CombatPlayModeScene.unity
     guid: 4584173b171de6745b5d2b5cde1c7fba
+  - enabled: 1
+    path: Assets/Scenes/Tests/SummonAddsNavMeshScene.unity
+    guid: df3fea49ca82e2b4ea72d3c2f38664ca
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
