@@ -7,6 +7,7 @@ namespace CMGTSA.Skills
     {
         Vector3 PlayerPosition { get; }
         Vector2 PlayerFacing { get; }
+        IPhysicsLineCaster Physics { get; }
 
         void ApplySpeedMultiplier(float multiplier);
         void ApplyAreaDamage(Vector3 origin, float radius, DamageData damage);
