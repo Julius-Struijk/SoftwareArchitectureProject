@@ -2,6 +2,7 @@ using UnityEngine;
 using CMGTSA.Battle;
 using CMGTSA.Core;
 using CMGTSA.Enemies;
+using CMGTSA.Game;
 using CMGTSA.Inventory;
 using CMGTSA.Quests;
 using CMGTSA.Skills;
@@ -32,7 +33,7 @@ namespace CMGTSA.Player
         [Min(0f)] [SerializeField] private float iframeDuration = 0.4f;
         private float iframeUntil;
 
-        public bool IsInvincible => Time.time < iframeUntil;
+        public bool IsInvincible => Time.time < iframeUntil || DebugOptions.GodMode;
         public void StartIFrames() => iframeUntil = Time.time + iframeDuration;
 
         [Header("Inventory (slice 3)")]
@@ -91,6 +92,7 @@ namespace CMGTSA.Player
             EventBus<EnemyDiedEvent>.Subscribe(OnEnemyDied);
             EventBus<ItemPickedUpEvent>.Subscribe(OnItemPickedUp);
             EventBus<QuestCompletedEvent>.Subscribe(OnQuestCompleted);
+            EventBus<DebugCheatToggledEvent>.Subscribe(OnDebugCheat);
             fsm.Enter();
         }
 
@@ -99,6 +101,7 @@ namespace CMGTSA.Player
             EventBus<EnemyDiedEvent>.Unsubscribe(OnEnemyDied);
             EventBus<ItemPickedUpEvent>.Unsubscribe(OnItemPickedUp);
             EventBus<QuestCompletedEvent>.Unsubscribe(OnQuestCompleted);
+            EventBus<DebugCheatToggledEvent>.Unsubscribe(OnDebugCheat);
         }
 
         private void Start()
@@ -148,6 +151,24 @@ namespace CMGTSA.Player
         private void OnQuestCompleted(QuestCompletedEvent evt)
         {
             stats.GainXP(evt.XPReward);
+        }
+
+        private void OnDebugCheat(DebugCheatToggledEvent evt)
+        {
+#if UNITY_EDITOR
+            switch (evt.Cheat)
+            {
+                case DebugCheat.TriggerGameOver:
+                    stats.Damage(99999);
+                    break;
+                case DebugCheat.GiveMoney:
+                    stats.GainMoney(evt.Magnitude);
+                    break;
+                case DebugCheat.GiveXP:
+                    stats.GainXP(evt.Magnitude);
+                    break;
+            }
+#endif
         }
 
         public void ApplySpeedMultiplier(float multiplier)
