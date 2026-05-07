@@ -43,7 +43,9 @@ namespace CMGTSA.Boss
 
         public bool TrySampleNavMesh(Vector3 source, float maxDistance, out Vector3 valid)
         {
-            if (NavMesh.SamplePosition(source, out NavMeshHit hit, maxDistance, NavMesh.AllAreas))
+            // 1 << 0 = Walkable area only; AllAreas also matches area 1 (Not Walkable wall tiles),
+            // which are baked as NavMesh geometry and would cause adds to spawn inside walls.
+            if (NavMesh.SamplePosition(source, out NavMeshHit hit, maxDistance, 1 << NavMesh.GetAreaFromName("Walkable")))
             {
                 valid = hit.position;
                 return true;
