@@ -14,6 +14,12 @@ namespace CMGTSA.Player
     /// implements <see cref="IDamageable"/> so <c>DamageResolver</c> can hit it, and grants
     /// XP/Money on <c>EnemyDiedEvent</c>. The FSM and the states are pure C#, no Unity refs;
     /// this class is the bridge between the framework and the engine.
+    ///
+    /// Per-frame attack reads <c>stats.CurrentAttackDamage</c> via <see cref="BuildAttackPayload"/>,
+    /// so level-up reward applications (<see cref="OnLeveledUp"/>) flow into combat
+    /// without an event-shape change. The <c>attackDamage</c> SerializeField is the
+    /// *template* for slow-down and damage-type fields; the integer damage is owned
+    /// by <see cref="PlayerStatsModel"/>.
     /// </summary>
     [RequireComponent(typeof(PlayerControl), typeof(Rigidbody2D))]
     public class PlayerController : MonoBehaviour, IDamageable
@@ -43,6 +49,10 @@ namespace CMGTSA.Player
         [SerializeField] private ItemCategory passiveCategory;
         [Tooltip("ItemCategory SO for quest items (keys, plot items).")]
         [SerializeField] private ItemCategory questCategory;
+
+        [Header("Progression")]
+        [Tooltip("Per-level rewards applied on PlayerLeveledUpEvent. Required for level-ups to bump HP and damage.")]
+        [SerializeField] private LevelUpRewardsTable rewardsTable;
 
         private PlayerControl input;
         private Rigidbody2D body;
@@ -74,8 +84,8 @@ namespace CMGTSA.Player
         {
             input = GetComponent<PlayerControl>();
             body = GetComponent<Rigidbody2D>();
-            stats = new PlayerStatsModel(maxHP, startingMoney);
             if (attackDamage == null) attackDamage = new DamageData { damage = 2 };
+            stats = new PlayerStatsModel(maxHP, startingMoney, attackDamage.damage);
             fsm = new PlayerFSM(this);
             inventoryContext = new PlayerInventoryContext(stats);
             var registry = new ItemUseStrategyRegistry(new[]
@@ -94,6 +104,7 @@ namespace CMGTSA.Player
             EventBus<ItemPickedUpEvent>.Subscribe(OnItemPickedUp);
             EventBus<QuestCompletedEvent>.Subscribe(OnQuestCompleted);
             EventBus<DebugCheatToggledEvent>.Subscribe(OnDebugCheat);
+            EventBus<PlayerLeveledUpEvent>.Subscribe(OnLeveledUp);
             fsm.Enter();
         }
 
@@ -103,14 +114,20 @@ namespace CMGTSA.Player
             EventBus<ItemPickedUpEvent>.Unsubscribe(OnItemPickedUp);
             EventBus<QuestCompletedEvent>.Unsubscribe(OnQuestCompleted);
             EventBus<DebugCheatToggledEvent>.Unsubscribe(OnDebugCheat);
+            EventBus<PlayerLeveledUpEvent>.Unsubscribe(OnLeveledUp);
         }
 
         private void Start()
         {
             // Re-publish initial HP so HUD presenters that subscribed in their own OnEnable
-            // can show the current value before the first damage tick.
+            // can show the current value before the first damage tick. Sibling re-publishes
+            // for level + XP let the new XP-bar / level-text / XP-number presenters do the same.
             EventBus<PlayerHPChangedEvent>.Publish(new PlayerHPChangedEvent(
                 stats.CurrentHP, stats.MaxHP, 0));
+            EventBus<PlayerLeveledUpEvent>.Publish(new PlayerLeveledUpEvent(
+                stats.Level, stats.XPForNextLevel()));
+            EventBus<PlayerXPGainedEvent>.Publish(new PlayerXPGainedEvent(
+                stats.XP, 0, stats.XPForNextLevel()));
         }
 
         private void Update()
@@ -122,17 +139,28 @@ namespace CMGTSA.Player
             }
 
             // Per-frame attack: independent of the FSM so the player can attack while moving.
-            // Section 4.2 of post-slice-8 spec will swap attackDamage for BuildAttackPayload().
+            // Damage integer comes from stats (level-ups raise it); the rest is the template.
             if (input.ConsumeAttackQueued() && attackCooldown.TryFire(Time.time, attackInterval))
             {
                 EventBus<PlayerAttackRequestedEvent>.Publish(new PlayerAttackRequestedEvent(
                     transform.position,
                     LastFacing,
                     attackRange,
-                    attackDamage));
+                    BuildAttackPayload()));
             }
 
             fsm.Step();
+        }
+
+        private DamageData BuildAttackPayload()
+        {
+            return new DamageData
+            {
+                damage       = stats.CurrentAttackDamage,
+                slowDown     = attackDamage.slowDown,
+                slowDownTime = attackDamage.slowDownTime,
+                damageType   = attackDamage.damageType,
+            };
         }
 
         public bool TakeDamage(int amount)
@@ -164,6 +192,21 @@ namespace CMGTSA.Player
         private void OnQuestCompleted(QuestCompletedEvent evt)
         {
             stats.GainXP(evt.XPReward);
+        }
+
+        private void OnLeveledUp(PlayerLeveledUpEvent evt)
+        {
+            // Initial-publish guard: PlayerController itself republishes
+            // PlayerLeveledUpEvent in Start so the HUD level-text presenter
+            // can show "Lv. 1" before any real level-up. That republish
+            // would otherwise apply rewards for level 1; skip it explicitly.
+            if (evt.NewLevel <= 1) return;
+            if (rewardsTable == null) return;
+
+            var r = rewardsTable.Get(evt.NewLevel);
+            if (r.hpDelta > 0)     stats.IncreaseMaxHP(r.hpDelta);
+            if (r.damageDelta > 0) stats.IncreaseAttackDamage(r.damageDelta);
+            if (r.healToFull)      stats.Heal(stats.MaxHP);
         }
 
         private void OnDebugCheat(DebugCheatToggledEvent evt)
