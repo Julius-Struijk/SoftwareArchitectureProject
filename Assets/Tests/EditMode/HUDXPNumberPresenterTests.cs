@@ -20,13 +20,10 @@ namespace CMGTSA.Tests
             EventBus<PlayerXPGainedEvent>.Clear();
 
             host = new GameObject("xp-number-host");
-            host.SetActive(false);
-
             label = host.AddComponent<TextMeshProUGUI>();
             presenter = host.AddComponent<HUDXPNumberPresenter>();
             SetPrivateField(presenter, "label", label);
-
-            host.SetActive(true);  // OnEnable → Subscribe
+            InvokePrivate(presenter, "OnEnable");
         }
 
         [TearDown]
@@ -69,6 +66,13 @@ namespace CMGTSA.Tests
                 BindingFlags.Instance | BindingFlags.NonPublic);
             Assert.IsNotNull(f, $"Field {name} not found on {target.GetType().Name}");
             f.SetValue(target, value);
+        }
+
+        private static void InvokePrivate(object target, string name)
+        {
+            target.GetType()
+                .GetMethod(name, BindingFlags.NonPublic | BindingFlags.Instance)
+                ?.Invoke(target, null);
         }
     }
 }
