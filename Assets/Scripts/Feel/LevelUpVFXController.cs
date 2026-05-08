@@ -23,8 +23,9 @@ namespace CMGTSA.Feel
             EventBus<PlayerLeveledUpEvent>.Unsubscribe(OnLeveledUp);
         }
 
-        private void OnLeveledUp(PlayerLeveledUpEvent _)
+        private void OnLeveledUp(PlayerLeveledUpEvent evt)
         {
+            if (evt.NewLevel <= 1) return;
             if (levelUpPrefab == null) return;
             Instantiate(levelUpPrefab, transform.position, Quaternion.identity, transform);
         }

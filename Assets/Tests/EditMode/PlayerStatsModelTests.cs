@@ -183,5 +183,135 @@ namespace CMGTSA.Tests
             Assert.AreEqual(0,  hpEvents);
             Assert.AreEqual(0,  xpEvents);
         }
+
+        [Test]
+        public void Constructor_initializes_CurrentAttackDamage_from_baseDamage()
+        {
+            var stats = new PlayerStatsModel(maxHP: 10, startingMoney: 0, baseDamage: 4);
+
+            Assert.AreEqual(4, stats.CurrentAttackDamage);
+        }
+
+        [Test]
+        public void Constructor_default_baseDamage_is_zero()
+        {
+            var stats = new PlayerStatsModel(10);
+
+            Assert.AreEqual(0, stats.CurrentAttackDamage);
+        }
+
+        [Test]
+        public void IncreaseMaxHP_raises_max_publishes_HPChanged_with_zero_delta_and_does_not_change_current()
+        {
+            var stats = new PlayerStatsModel(10);
+            int receivedDelta = -99;
+            int receivedCurrent = -1;
+            int receivedMax = -1;
+            EventBus<PlayerHPChangedEvent>.Subscribe(e =>
+            {
+                receivedDelta = e.Delta;
+                receivedCurrent = e.CurrentHP;
+                receivedMax = e.MaxHP;
+            });
+
+            stats.IncreaseMaxHP(3);
+
+            Assert.AreEqual(13, stats.MaxHP, "MaxHP should rise by delta.");
+            Assert.AreEqual(10, stats.CurrentHP, "CurrentHP must NOT auto-rise on a MaxHP bump.");
+            Assert.AreEqual(0, receivedDelta, "Published delta should be 0 — only the cap moved.");
+            Assert.AreEqual(10, receivedCurrent);
+            Assert.AreEqual(13, receivedMax, "Subscribers must see the new MaxHP.");
+        }
+
+        [Test]
+        public void IncreaseMaxHP_with_zero_or_negative_delta_is_noop()
+        {
+            var stats = new PlayerStatsModel(10);
+            int events = 0;
+            EventBus<PlayerHPChangedEvent>.Subscribe(_ => events++);
+
+            stats.IncreaseMaxHP(0);
+            stats.IncreaseMaxHP(-3);
+
+            Assert.AreEqual(10, stats.MaxHP);
+            Assert.AreEqual(0, events);
+        }
+
+        [Test]
+        public void IncreaseAttackDamage_raises_CurrentAttackDamage_no_event()
+        {
+            var stats = new PlayerStatsModel(10, startingMoney: 0, baseDamage: 2);
+            int hpEvents = 0, xpEvents = 0, levelEvents = 0;
+            EventBus<PlayerHPChangedEvent>.Subscribe(_ => hpEvents++);
+            EventBus<PlayerXPGainedEvent>.Subscribe(_ => xpEvents++);
+            EventBus<PlayerLeveledUpEvent>.Subscribe(_ => levelEvents++);
+
+            stats.IncreaseAttackDamage(3);
+
+            Assert.AreEqual(5, stats.CurrentAttackDamage);
+            Assert.AreEqual(0, hpEvents,    "IncreaseAttackDamage must not publish HP events.");
+            Assert.AreEqual(0, xpEvents,    "IncreaseAttackDamage must not publish XP events.");
+            Assert.AreEqual(0, levelEvents, "IncreaseAttackDamage must not publish level events.");
+        }
+
+        [Test]
+        public void IncreaseAttackDamage_with_zero_or_negative_delta_is_noop()
+        {
+            var stats = new PlayerStatsModel(10, startingMoney: 0, baseDamage: 2);
+
+            stats.IncreaseAttackDamage(0);
+            stats.IncreaseAttackDamage(-3);
+
+            Assert.AreEqual(2, stats.CurrentAttackDamage);
+        }
+
+        [Test]
+        public void GainXP_publishes_settled_XPGained_after_level_up_with_new_denominator()
+        {
+            // Crossing level 1 -> 2 with exactly enough XP. After the loop,
+            // XP = 0, Level = 2, XPForNextLevel = 5*2 = 10.
+            var stats = new PlayerStatsModel(10);
+
+            int xpTotal = -1, xpGained = -1, xpDenom = -1;
+            int xpEventCount = 0;
+            EventBus<PlayerXPGainedEvent>.Subscribe(e =>
+            {
+                xpEventCount++;
+                xpTotal = e.TotalXP;
+                xpGained = e.Gained;
+                xpDenom = e.XPForNextLevel;
+            });
+
+            int levelDenom = -1;
+            EventBus<PlayerLeveledUpEvent>.Subscribe(e => levelDenom = e.XPForNextLevel);
+
+            stats.GainXP(5);
+
+            Assert.AreEqual(1, xpEventCount, "Exactly one XPGained event per GainXP call.");
+            Assert.AreEqual(0, xpTotal,       "Settled total XP after level-up.");
+            Assert.AreEqual(5, xpGained,      "Gained reflects the original input amount.");
+            Assert.AreEqual(10, xpDenom,      "Denominator is the post-level threshold (5 * 2).");
+            Assert.AreEqual(10, levelDenom,   "LeveledUp event also carries the new denominator.");
+        }
+
+        [Test]
+        public void GainXP_overflow_publishes_settled_XPGained_with_remaining_xp()
+        {
+            // Gain 7 XP at level 1: cross 1->2 (consumes 5), 2 left over.
+            // After loop: XP = 2, Level = 2, XPForNextLevel = 10.
+            var stats = new PlayerStatsModel(10);
+
+            int xpTotal = -1, xpDenom = -1;
+            EventBus<PlayerXPGainedEvent>.Subscribe(e =>
+            {
+                xpTotal = e.TotalXP;
+                xpDenom = e.XPForNextLevel;
+            });
+
+            stats.GainXP(7);
+
+            Assert.AreEqual(2, xpTotal,  "Remaining XP after consuming the threshold.");
+            Assert.AreEqual(10, xpDenom, "Denominator updated to the new threshold.");
+        }
     }
 }
