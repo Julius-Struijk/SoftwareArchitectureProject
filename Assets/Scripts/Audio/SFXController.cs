@@ -71,7 +71,7 @@ namespace CMGTSA.Audio
 
         private void OnEnemyDied(EnemyDiedEvent _)            => Play(AudioSlot.EnemyDeath);
         private void OnPlayerDied(PlayerDiedEvent _)          => Play(AudioSlot.PlayerDeath);
-        private void OnLeveledUp(PlayerLeveledUpEvent _)      => Play(AudioSlot.LevelUp);
+        private void OnLeveledUp(PlayerLeveledUpEvent evt)    { if (evt.NewLevel > 1) Play(AudioSlot.LevelUp); }
         private void OnSkillUsed(SkillUsedEvent _)            => Play(AudioSlot.SkillCast);
         private void OnBossStart(BossEncounterStartedEvent _) => Play(AudioSlot.BossStinger);
         private void OnItemUsed(ItemUsedEvent _)              => Play(AudioSlot.UIClick);

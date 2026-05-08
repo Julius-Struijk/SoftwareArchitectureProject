@@ -9,10 +9,9 @@ using CMGTSA.UI;
 namespace CMGTSA.Tests
 {
     /// <summary>
-    /// Verifies the XP bar presenter listens to the post-settlement
-    /// PlayerXPGainedEvent and writes Image.fillAmount = xp / xpForNextLevel.
-    /// Uses an active GameObject so AddComponent triggers OnEnable
-    /// (which is where the presenter subscribes to the bus).
+    /// Verifies the XP bar presenter listens to PlayerXPGainedEvent and drives
+    /// the fill by setting RectTransform.anchorMax.x = xp / xpForNextLevel
+    /// (same approach as the HP bar presenter).
     /// </summary>
     public class HUDXPBarPresenterTests
     {
@@ -27,9 +26,6 @@ namespace CMGTSA.Tests
 
             host = new GameObject("xp-bar-host");
             image = host.AddComponent<Image>();
-            image.type = Image.Type.Filled;
-            image.fillMethod = Image.FillMethod.Horizontal;
-            image.fillAmount = 1f;
 
             presenter = host.AddComponent<HUDXPBarPresenter>();
             SetPrivateField(presenter, "fillImage", image);
@@ -47,30 +43,30 @@ namespace CMGTSA.Tests
         }
 
         [Test]
-        public void OnXPGained_setsFillAmountToRatio()
+        public void OnXPGained_setsAnchorMaxXToRatio()
         {
             EventBus<PlayerXPGainedEvent>.Publish(new PlayerXPGainedEvent(
                 totalXP: 3, gained: 1, xpForNextLevel: 5));
 
-            Assert.AreEqual(0.6f, image.fillAmount, 0.0001f);
+            Assert.AreEqual(0.6f, image.rectTransform.anchorMax.x, 0.0001f);
         }
 
         [Test]
-        public void OnXPGained_clampsFillAmountToOne_whenXPMeetsThreshold()
+        public void OnXPGained_clampsAnchorMaxToOne_whenXPMeetsThreshold()
         {
             EventBus<PlayerXPGainedEvent>.Publish(new PlayerXPGainedEvent(
                 totalXP: 5, gained: 5, xpForNextLevel: 5));
 
-            Assert.AreEqual(1f, image.fillAmount, 0.0001f);
+            Assert.AreEqual(1f, image.rectTransform.anchorMax.x, 0.0001f);
         }
 
         [Test]
-        public void OnXPGained_withZeroDenominator_setsFillAmountToZero()
+        public void OnXPGained_withZeroDenominator_setsAnchorMaxToZero()
         {
             EventBus<PlayerXPGainedEvent>.Publish(new PlayerXPGainedEvent(
                 totalXP: 3, gained: 0, xpForNextLevel: 0));
 
-            Assert.AreEqual(0f, image.fillAmount, 0.0001f);
+            Assert.AreEqual(0f, image.rectTransform.anchorMax.x, 0.0001f);
         }
 
         [Test]

@@ -39,7 +39,8 @@ namespace CMGTSA.UI
             float fill = evt.XPForNextLevel > 0
                 ? Mathf.Clamp01(evt.TotalXP / (float)evt.XPForNextLevel)
                 : 0f;
-            fillImage.fillAmount = fill;
+            RectTransform rt = fillImage.rectTransform;
+            rt.anchorMax = new Vector2(fill, rt.anchorMax.y);
         }
     }
 }
