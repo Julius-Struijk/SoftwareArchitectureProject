@@ -20,9 +20,13 @@ namespace CMGTSA.Tests
             EventBus<PlayerXPGainedEvent>.Clear();
 
             host = new GameObject("xp-number-host");
+            host.SetActive(false);
+
             label = host.AddComponent<TextMeshProUGUI>();
             presenter = host.AddComponent<HUDXPNumberPresenter>();
             SetPrivateField(presenter, "label", label);
+
+            host.SetActive(true);  // OnEnable → Subscribe
         }
 
         [TearDown]

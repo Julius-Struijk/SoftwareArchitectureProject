@@ -2,7 +2,6 @@ using System.Collections;
 using System.Reflection;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using CMGTSA.Core;
 using CMGTSA.Player;
@@ -14,11 +13,13 @@ namespace CMGTSA.Tests
     /// flow through PlayerController.OnLeveledUp, look up the rewards table,
     /// and bump MaxHP + CurrentAttackDamage on the model. EditMode covers
     /// the model and the table independently; this test wires them together
-    /// via a real PlayerController instance.
+    /// via a real PlayerController instance constructed synthetically
+    /// (same pattern as CombatFlowTests — CombatPlayModeScene has no PlayerController).
     /// </summary>
     public class LevelUpRewardsFlowTests
     {
         private LevelUpRewardsTable rewardsTable;
+        private GameObject playerGO;
 
         [UnitySetUp]
         public IEnumerator UnitySetUp()
@@ -27,10 +28,6 @@ namespace CMGTSA.Tests
             EventBus<PlayerXPGainedEvent>.Clear();
             EventBus<PlayerLeveledUpEvent>.Clear();
             EventBus<PlayerDiedEvent>.Clear();
-
-            // Use the existing combat scene so PlayerController has a Rigidbody2D and PlayerControl.
-            yield return SceneManager.LoadSceneAsync(
-                "CombatPlayModeScene", LoadSceneMode.Single);
 
             rewardsTable = ScriptableObject.CreateInstance<LevelUpRewardsTable>();
             rewardsTable.rewards = new[]
@@ -41,11 +38,25 @@ namespace CMGTSA.Tests
             {
                 level = 0, hpDelta = 0, damageDelta = 0, healToFull = false,
             };
+
+            // Build a minimal PlayerController. Inactive during AddComponent so Awake
+            // is deferred until after rewardsTable is injected.
+            playerGO = new GameObject("TestPlayer");
+            playerGO.tag = "Player";
+            playerGO.SetActive(false);
+            playerGO.AddComponent<Rigidbody2D>();
+            playerGO.AddComponent<PlayerControl>();
+            var player = playerGO.AddComponent<PlayerController>();
+            SetPrivateField(player, "rewardsTable", rewardsTable);
+            playerGO.SetActive(true);   // Awake (stats init) + OnEnable (Subscribe) fire here
+
+            yield return null;          // Start fires (re-publishes initial events)
         }
 
         [UnityTearDown]
         public IEnumerator UnityTearDown()
         {
+            if (playerGO != null) Object.Destroy(playerGO);
             if (rewardsTable != null) Object.DestroyImmediate(rewardsTable);
 
             EventBus<PlayerHPChangedEvent>.Clear();
@@ -58,12 +69,8 @@ namespace CMGTSA.Tests
         [UnityTest]
         public IEnumerator GainXP_pastThreshold_appliesRewards_andHealsToFull()
         {
-            var player = Object.FindFirstObjectByType<PlayerController>();
-            Assert.IsNotNull(player, "CombatPlayModeScene must contain a PlayerController.");
-
-            // Inject our fixed rewards table via reflection so we don't depend on
-            // whatever the scene's player has assigned.
-            SetPrivateField(player, "rewardsTable", rewardsTable);
+            var player = playerGO.GetComponent<PlayerController>();
+            Assert.IsNotNull(player, "PlayerController must be on the test GameObject.");
 
             var stats = player.Stats;
             Assert.IsNotNull(stats, "PlayerStatsModel must be initialized in Awake.");

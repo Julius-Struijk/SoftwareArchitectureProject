@@ -20,9 +20,13 @@ namespace CMGTSA.Tests
             EventBus<PlayerLeveledUpEvent>.Clear();
 
             host = new GameObject("level-text-host");
+            host.SetActive(false);
+
             label = host.AddComponent<TextMeshProUGUI>();
             presenter = host.AddComponent<HUDLevelTextPresenter>();
             SetPrivateField(presenter, "label", label);
+
+            host.SetActive(true);  // OnEnable → Subscribe
         }
 
         [TearDown]

@@ -25,7 +25,12 @@ namespace CMGTSA.Tests
         {
             EventBus<PlayerXPGainedEvent>.Clear();
 
+            // Create inactive so AddComponent defers Awake/OnEnable until after
+            // all fields are set — Unity's EditMode test runner does not call
+            // OnEnable during AddComponent on an already-active GameObject.
             host = new GameObject("xp-bar-host");
+            host.SetActive(false);
+
             image = host.AddComponent<Image>();
             image.type = Image.Type.Filled;
             image.fillMethod = Image.FillMethod.Horizontal;
@@ -33,6 +38,8 @@ namespace CMGTSA.Tests
 
             presenter = host.AddComponent<HUDXPBarPresenter>();
             SetPrivateField(presenter, "fillImage", image);
+
+            host.SetActive(true);  // Awake → fillImage guard; OnEnable → Subscribe
         }
 
         [TearDown]
