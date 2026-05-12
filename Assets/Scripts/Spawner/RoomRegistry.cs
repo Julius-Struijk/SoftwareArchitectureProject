@@ -13,6 +13,9 @@ namespace CMGTSA.Spawner
 
         private void Awake()
         {
+            // Room.Awake populates Bounds from BoxCollider2D. Both Awake calls run in the same
+            // phase, so ordering is not guaranteed. RoomRegistry only stores references here;
+            // callers that need valid Bounds should access them after Start (e.g. EnemySpawner.Update).
             rooms.Clear();
             var found = FindObjectsByType<Room>(FindObjectsSortMode.None);
             for (int i = 0; i < found.Length; i++)

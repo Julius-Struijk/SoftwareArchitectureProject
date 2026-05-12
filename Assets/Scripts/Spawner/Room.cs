@@ -4,6 +4,13 @@ using CMGTSA.Enemies;
 
 namespace CMGTSA.Spawner
 {
+    /// <summary>
+    /// Defines a dungeon room for the spawner system. The sibling <see cref="BoxCollider2D"/>
+    /// supplies both the trigger volume (used by <see cref="RoomTrigger"/>) and the spawn
+    /// bounds (used by <see cref="EnemySpawner"/>). Counter mutators are public so the
+    /// spawner can update <see cref="AliveCount"/> and <see cref="LastSpawnAt"/> without
+    /// reflection — this is one project, encapsulation purity isn't worth the ceremony.
+    /// </summary>
     public class Room : MonoBehaviour
     {
         [Tooltip("Pool of enemy SOs the spawner picks from for this room. Empty = no spawns.")]
@@ -23,19 +30,20 @@ namespace CMGTSA.Spawner
         public float LastSpawnAt { get; private set; }
         public Bounds Bounds { get; private set; }
 
+        private BoxCollider2D col;
+
         private void Awake()
         {
-            var col = GetComponent<BoxCollider2D>();
-            if (col != null)
-            {
-                Bounds = col.bounds;
-            }
-            else
-            {
-                Bounds = new Bounds(transform.position, Vector3.zero);
-            }
+            col = GetComponent<BoxCollider2D>();
+            Bounds = col != null ? col.bounds : new Bounds(transform.position, Vector3.zero);
         }
 
+        /// <summary>
+        /// Test/runtime seam: replace the serialized config in-memory. Called from EditMode
+        /// tests (no Inspector). Production code does not call this — the Inspector populates
+        /// the same fields at scene load. The explicit <paramref name="bounds"/> param overrides
+        /// the collider-derived Bounds from Awake; the two paths are mutually exclusive by design.
+        /// </summary>
         public void Configure(EnemyData[] pool, int cap, float interval, Bounds bounds)
         {
             enemyPool = pool;
@@ -50,7 +58,6 @@ namespace CMGTSA.Spawner
 
         private void OnDrawGizmosSelected()
         {
-            var col = GetComponent<BoxCollider2D>();
             Gizmos.color = new Color(0f, 1f, 0f, 0.6f);
             if (col != null)
             {

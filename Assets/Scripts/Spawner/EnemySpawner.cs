@@ -133,7 +133,8 @@ namespace CMGTSA.Spawner
 
             private EnemyData PickRandom(IReadOnlyList<EnemyData> pool)
             {
-                int idx = Mathf.Clamp((int)(random01() * pool.Count), 0, pool.Count - 1);
+                // FloorToInt + Min avoids the 1.0 edge-case where random01()==1 would map to pool.Count.
+                int idx = Mathf.FloorToInt(Mathf.Min(random01() * pool.Count, pool.Count - 1));
                 return pool[idx];
             }
 
