@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10c765a8fb1b79444a276bb3e8c48b38, type: 3}
-  m_Name: Golem
+  m_Name: TestEnemy
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   maxHP: 10
-  money: 15
-  xp: 8
+  money: 0
+  xp: 0
   targetPosition: {x: 0, y: 0, z: 0}
   rotateSpeed: 180
   attackInterval: 0.5
@@ -22,19 +22,15 @@ MonoBehaviour:
   isRegularEnemy: 1
   waitingTime: 2
   attackRange: 1
-  chaseRange: 2.5
+  chaseRange: 1
   normalModeSpeed: 1
-  alertModeSpeed: 2
+  alertModeSpeed: 1
   normalModeWaitingTime: 2
   alertModeWaitingTime: 1
   attackDamage:
-    damage: 2
+    damage: 0
     slowDown: 0
     slowDownTime: 0
-    damageType: {fileID: 11400000, guid: 655c12c228a28004381d2f930a155be2, type: 2}
-  lootTable:
-  - item: {fileID: 11400000, guid: aed6f4fa22e73314ba9f4b308935aab3, type: 2}
-    chance: 0.5
-  - item: {fileID: 11400000, guid: 6688faf1411770048aab65bb5bf1d604, type: 2}
-    chance: 0.25
-  prefab: {fileID: 7145702272611391355, guid: b3de04326559cfb40a74a5db16fe28d1, type: 3}
+    damageType: {fileID: 0}
+  lootTable: []
+  prefab: {fileID: 7145702272611391355, guid: 9707613621ed56643a6f95f765be71be, type: 3}

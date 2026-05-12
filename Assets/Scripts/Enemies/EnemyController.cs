@@ -46,7 +46,8 @@ namespace CMGTSA.Enemies
 
             enemy = enemyData.CreateEnemy();
             enemy.startPosition = transform.position;
-            enemy.target = GameObject.FindGameObjectWithTag("Player").transform;
+            var playerGo = GameObject.FindGameObjectWithTag("Player");
+            enemy.target = playerGo != null ? playerGo.transform : null;
             enemy.stateOwnerTransform = transform;
             enemyFSM = new EnemyFSM(navMeshAgent, enemy);
 
@@ -117,7 +118,7 @@ namespace CMGTSA.Enemies
             if (enemy.currentHP == 0)
             {
                 EventBus<EnemyDiedEvent>.Publish(new EnemyDiedEvent(
-                    enemy.XP, enemy.Money, transform.position, enemyData));
+                    enemy.XP, enemy.Money, transform.position, enemyData, gameObject));
                 Destroy(gameObject);
                 return true;
             }

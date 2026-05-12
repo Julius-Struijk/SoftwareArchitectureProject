@@ -27,7 +27,7 @@ namespace CMGTSA.Boss
             if (data != null && bossTransform != null)
             {
                 EventBus<EnemyDiedEvent>.Publish(new EnemyDiedEvent(
-                    data.xpReward, data.moneyReward, bossTransform.position, null));
+                    data.xpReward, data.moneyReward, bossTransform.position, null, bossTransform.gameObject));
             }
             onEntered?.Invoke();
         }
