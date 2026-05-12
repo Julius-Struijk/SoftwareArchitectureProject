@@ -37,12 +37,23 @@ namespace CMGTSA.Enemies
         [Tooltip("Slice 3: rolled by LootDropper on EnemyDiedEvent. Each entry is independent.")]
         public LootEntry[] lootTable;
 
+        [Tooltip("Prefab spawned by the runtime EnemyData.CreateEnemy(Vector3) factory overload. " +
+                 "Should be a fully-configured enemy prefab whose EnemyController references this same SO.")]
+        [SerializeField]
+        private GameObject prefab;
+
         public Enemy CreateEnemy()
         {
             return new Enemy(maxHP, money, xp, targetPosition, rotateSpeed,
                 attackInterval, distanceThreshold, attackRange, chaseRange,
                 normalModeSpeed, alertModeSpeed, normalModeWaitingTime, alertModeWaitingTime,
                 isRegularEnemy);
+        }
+
+        public GameObject CreateEnemy(Vector3 position)
+        {
+            if (prefab == null) return null;
+            return Object.Instantiate(prefab, position, Quaternion.identity);
         }
     }
 }
