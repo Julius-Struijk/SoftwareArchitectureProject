@@ -2119,7 +2119,8 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -36
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 382649768121590941, guid: f8d9cae21cca78a4e99ec4e8163ce484, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2127,6 +2128,11 @@ PrefabInstance:
 --- !u!224 &1592085187 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 340864177669483663, guid: f8d9cae21cca78a4e99ec4e8163ce484, type: 3}
+  m_PrefabInstance: {fileID: 1592085186}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1592085188 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 822633972253424156, guid: f8d9cae21cca78a4e99ec4e8163ce484, type: 3}
   m_PrefabInstance: {fileID: 1592085186}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1653517726
@@ -42810,7 +42816,10 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1606935345301634348, guid: abf04dc979df88b4e91a8858308d3b05, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1309584628}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7654738106263439713, guid: abf04dc979df88b4e91a8858308d3b05, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 750108873037898620}
   m_SourcePrefab: {fileID: 100100000, guid: abf04dc979df88b4e91a8858308d3b05, type: 3}
 --- !u!224 &750108873037898617 stripped
 RectTransform:
@@ -42822,6 +42831,25 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1606935345301634348, guid: abf04dc979df88b4e91a8858308d3b05, type: 3}
   m_PrefabInstance: {fileID: 750108873037898616}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &750108873037898619 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7654738106263439713, guid: abf04dc979df88b4e91a8858308d3b05, type: 3}
+  m_PrefabInstance: {fileID: 750108873037898616}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &750108873037898620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750108873037898619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ce122941318c69489665109557ec704, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: CMGTSA.Runtime::CMGTSA.UI.SkillsPanel
+  panelRoot: {fileID: 1592085188}
+  startVisible: 1
 --- !u!1001 &8852712876483828542
 PrefabInstance:
   m_ObjectHideFlags: 0
