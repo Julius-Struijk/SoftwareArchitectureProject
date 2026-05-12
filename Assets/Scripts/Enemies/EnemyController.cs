@@ -117,7 +117,7 @@ namespace CMGTSA.Enemies
             if (enemy.currentHP == 0)
             {
                 EventBus<EnemyDiedEvent>.Publish(new EnemyDiedEvent(
-                    enemy.XP, enemy.Money, transform.position, enemyData));
+                    enemy.XP, enemy.Money, transform.position, enemyData, gameObject));
                 Destroy(gameObject);
                 return true;
             }

@@ -76,7 +76,7 @@ namespace CMGTSA.Tests
             var rt = goal.CreateRuntime();
             // Default base implementation returns false; sanity-check polymorphism boundary.
             var enemyData = ScriptableObject.CreateInstance<CMGTSA.Enemies.EnemyData>();
-            bool changed = rt.OnEnemyDied(new CMGTSA.Enemies.EnemyDiedEvent(0, 0, Vector3.zero, enemyData));
+            bool changed = rt.OnEnemyDied(new CMGTSA.Enemies.EnemyDiedEvent(0, 0, Vector3.zero, enemyData, null));
             Assert.IsFalse(changed);
             Assert.AreEqual(0, rt.CurrentCount);
             Object.DestroyImmediate(enemyData);

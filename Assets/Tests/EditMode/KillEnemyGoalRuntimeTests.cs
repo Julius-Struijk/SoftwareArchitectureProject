@@ -45,7 +45,7 @@ namespace CMGTSA.Tests
         public void Matching_kill_increments_and_returns_true()
         {
             var rt = goal.CreateRuntime();
-            bool changed = rt.OnEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost));
+            bool changed = rt.OnEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost, null));
             Assert.IsTrue(changed);
             Assert.AreEqual(1, rt.CurrentCount);
             Assert.IsFalse(rt.IsComplete);
@@ -55,7 +55,7 @@ namespace CMGTSA.Tests
         public void Non_matching_kill_does_nothing_and_returns_false()
         {
             var rt = goal.CreateRuntime();
-            bool changed = rt.OnEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, golem));
+            bool changed = rt.OnEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, golem, null));
             Assert.IsFalse(changed);
             Assert.AreEqual(0, rt.CurrentCount);
         }
@@ -64,8 +64,8 @@ namespace CMGTSA.Tests
         public void Reaching_required_count_marks_complete()
         {
             var rt = goal.CreateRuntime();
-            rt.OnEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost));
-            rt.OnEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost));
+            rt.OnEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost, null));
+            rt.OnEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost, null));
             Assert.AreEqual(2, rt.CurrentCount);
             Assert.IsTrue(rt.IsComplete);
         }
@@ -74,9 +74,9 @@ namespace CMGTSA.Tests
         public void Extra_kills_after_complete_do_not_over_count()
         {
             var rt = goal.CreateRuntime();
-            rt.OnEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost));
-            rt.OnEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost));
-            bool changed = rt.OnEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost));
+            rt.OnEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost, null));
+            rt.OnEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost, null));
+            bool changed = rt.OnEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost, null));
             Assert.IsFalse(changed);
             Assert.AreEqual(2, rt.CurrentCount);
         }

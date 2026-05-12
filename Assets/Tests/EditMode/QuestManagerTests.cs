@@ -97,7 +97,7 @@ namespace CMGTSA.Tests
             EventBus<QuestProgressEvent>.Subscribe(_ => progressCount++);
             EventBus<QuestCompletedEvent>.Subscribe(_ => completedCount++);
 
-            core.HandleEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost));
+            core.HandleEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost, null));
 
             Assert.AreEqual(1, progressCount);
             Assert.AreEqual(0, completedCount);
@@ -111,8 +111,8 @@ namespace CMGTSA.Tests
             QuestCompletedEvent? completed = null;
             EventBus<QuestCompletedEvent>.Subscribe(e => completed = e);
 
-            core.HandleEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost));
-            core.HandleEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost));
+            core.HandleEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost, null));
+            core.HandleEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost, null));
 
             Assert.IsTrue(completed.HasValue);
             Assert.AreSame(questCull, completed.Value.Quest);
@@ -127,10 +127,10 @@ namespace CMGTSA.Tests
             int completedCount = 0;
             EventBus<QuestCompletedEvent>.Subscribe(_ => completedCount++);
 
-            core.HandleEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost));
-            core.HandleEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost));
-            core.HandleEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost));
-            core.HandleEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost));
+            core.HandleEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost, null));
+            core.HandleEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost, null));
+            core.HandleEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost, null));
+            core.HandleEnemyDied(new EnemyDiedEvent(0, 0, Vector3.zero, ghost, null));
 
             Assert.AreEqual(1, completedCount);
         }
