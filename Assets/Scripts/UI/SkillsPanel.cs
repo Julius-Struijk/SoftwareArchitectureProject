@@ -37,12 +37,13 @@ namespace CMGTSA.UI
         private void OnValidate()
         {
             if (panelRoot == null) return;
-            if (panelRoot == gameObject || panelRoot.transform.IsChildOf(transform))
+            // Warn when panelRoot.SetActive(false) would also deactivate this component —
+            // i.e. this object IS panelRoot, or is nested inside panelRoot's subtree.
+            if (panelRoot == gameObject || transform.IsChildOf(panelRoot.transform))
             {
                 Debug.LogWarning(
-                    "SkillsPanel: panelRoot must NOT be this GameObject or a descendant. " +
-                    "Toggle script must remain active when the panel is hidden — " +
-                    "put SkillsPanel on a stable parent and point panelRoot at the panel child.",
+                    "SkillsPanel: this GameObject must NOT be panelRoot or a descendant of it. " +
+                    "Put SkillsPanel on a stable parent and point panelRoot at the panel child.",
                     this);
             }
         }
