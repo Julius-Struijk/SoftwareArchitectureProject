@@ -46,7 +46,8 @@ namespace CMGTSA.Enemies
 
             enemy = enemyData.CreateEnemy();
             enemy.startPosition = transform.position;
-            enemy.target = GameObject.FindGameObjectWithTag("Player").transform;
+            var playerGo = GameObject.FindGameObjectWithTag("Player");
+            enemy.target = playerGo != null ? playerGo.transform : null;
             enemy.stateOwnerTransform = transform;
             enemyFSM = new EnemyFSM(navMeshAgent, enemy);
 
